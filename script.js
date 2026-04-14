@@ -1,313 +1,179 @@
-// 3D Animated Background
-function init3DBackground() {
-    const canvas = document.getElementById('bg-canvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position.z = 5;
+// 🔥 IMPORT FIREBASE
+import { saveChat } from "./firebase.js";
 
-    // Particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 200;
-    const posArray = new Float32Array(particlesCount * 3);
+// 🔵 Loader
+window.addEventListener("load", () => {
+setTimeout(() => {
+document.getElementById("loader").style.display = "none";
+}, 2000);
+});
 
-    for(let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 10;
-    }
+// ✍️ Typing Effect
+const text = "I build smart & interactive web experiences 🚀";
+let index = 0;
 
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.03,
-        color: 0x00ffff,
-        transparent: true,
-        opacity: 0.8
-    });
+function typeEffect() {
+if (index < text.length) {
+document.querySelector(".typing").innerHTML += text.charAt(index);
+index++;
+setTimeout(typeEffect, 50);
+}
+}
+typeEffect();
 
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+// 🖱️ Custom Cursor
+const cursor = document.querySelector(".cursor");
 
-    // Mouse interaction
-    let mouseX = 0, mouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-    });
+document.addEventListener("mousemove", (e) => {
+cursor.style.top = e.clientY + "px";
+cursor.style.left = e.clientX + "px";
+});
 
-    // Animation Loop
-    function animate() {
-        requestAnimationFrame(animate);
-        
-        particlesMesh.rotation.y += 0.002;
-        particlesMesh.rotation.x += mouseY * 0.001;
-        particlesMesh.rotation.z += mouseX * 0.001;
-        
-        renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize Handler
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+// 🔽 Scroll
+function scrollToProjects() {
+document.querySelector(".projects").scrollIntoView({
+behavior: "smooth"
+});
 }
 
-// GSAP Animations
-function initAnimations() {
-    gsap.from('.hero-title', { duration: 1.5, y: 100, opacity: 0, ease: 'power3.out' });
-    gsap.from('.hero-subtitle', { duration: 1.5, y: 100, opacity: 0, delay: 0.3, ease: 'power3.out' });
-    gsap.from('.hero-buttons', { duration: 1.5, y: 100, opacity: 0, delay: 0.6, ease: 'power3.out' });
-    
-    gsap.from('.project-card', {
-        duration: 1,
-        y: 50,
-        opacity: 0,
-        stagger: 0.2,
-        scrollTrigger: {
-            trigger: '#projects',
-            start: 'top 80%'
-        }
-    });
+// ==============================
+// 🤖 AI CHAT SYSTEM (UPDATED)
+// ==============================
+const input = document.getElementById("ai-input");
+const messages = document.querySelector(".ai-messages");
 
-    gsap.from('.skill-tag', {
-        duration: 0.8,
-        scale: 0,
-        rotation: 180,
-        stagger: 0.1,
-        scrollTrigger: {
-            trigger: '#skills',
-            start: 'top 80%'
-        }
-    });
+// Add message UI
+function addMessage(text) {
+let div = document.createElement("div");
+div.innerText = text;
+messages.appendChild(div);
+messages.scrollTop = messages.scrollHeight;
 }
 
-// Navbar Smooth Scroll + Active
-function initNavbar() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-            
-            // Remove active from all
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-        });
-    });
+// 🔥 REAL AI (Vercel API)
+async function getAIResponse(msg) {
+try {
+const res = await fetch("/api/ask", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ message: msg })
+});
 
-    // Auto active on scroll
-    window.addEventListener('scroll', () => {
-        const sections = document.querySelectorAll('.section');
-        const scrollPos = window.scrollY + 100;
+const data = await res.json();
+return data.choices[0].message.content;
 
-        sections.forEach(section => {
-            if (scrollPos >= section.offsetTop) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + section.id) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    });
+} catch (err) {
+return "⚠️ Error connecting AI...";
+}
 }
 
-// Feedback Form (Firebase)
-// Add this to your existing script.js (replace feedback function)
+// Enter press
+input.addEventListener("keypress", async function(e) {
+if (e.key === "Enter") {
 
-// Updated Feedback Form (Firebase v12)
-function initFeedbackForm() {
-    const form = document.getElementById('feedback-form');
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
-        
-        try {
-            const success = await saveFeedback(formData); // Now works with v12!
-            
-            if (success) {
-                form.reset();
-                
-                // Success Animation 🎉
-                gsap.to(form, { 
-                    scale: 0.95, 
-                    duration: 0.1, 
-                    yoyo: true, 
-                    repeat: 1 
-                });
-                
-                // Success Message
-                const btn = form.querySelector('button');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Saved to Firebase! Thank you Shiva! ✨';
-                btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 4000);
-            }
-            
-        } catch (error) {
-            console.error('Firebase Error:', error);
-            alert('❌ Network error! Check internet connection.');
-        }
-    });
+let userText = input.value.trim();
+if (!userText) return;
+
+addMessage("You: " + userText);
+input.value = "";
+
+// Loading
+addMessage("AI is typing...");
+
+const reply = await getAIResponse(userText);
+
+// Remove "typing..."
+messages.lastChild.remove();
+
+addMessage("AI: " + reply);
+
+// 🔥 SAVE CHAT
+saveChat(userText, reply);
+
 }
-        
+});
 
+// ==============================
+// 🎛️ AI OPEN / CLOSE
+// ==============================
+const openBtn = document.getElementById("openAI");
+const closeBtn = document.getElementById("closeAI");
+const chatBox = document.querySelector(".ai-chat");
 
-// New function to talk to Vercel Backend instead of direct OpenRouter
-async function getAIResponse(message) {
-    const response = await fetch('/api/ask', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            model: "openrouter/auto",
-            messages: [{ role: "user", content: message }]
-        })
-    });
+openBtn.addEventListener("click", () => {
+chatBox.classList.remove("hidden");
+});
 
-    if (!response.ok) {
-        throw new Error('API request failed');
-    }
+closeBtn.addEventListener("click", () => {
+chatBox.classList.add("hidden");
+});
 
-    const data = await response.json();
-    return data.choices[0].message.content;
+// ==============================
+// 🎮 GAME
+// ==============================
+function startGame() {
+let number = Math.floor(Math.random() * 5) + 1;
+let guess = prompt("Guess number (1-5)");
+
+if (guess == number) {
+document.getElementById("game-result").innerText = "🔥 You won!";
+} else {
+document.getElementById("game-result").innerText = "😅 Try again!";
+}
 }
 
-// AI Chat (OpenRouter)
-function initAIChat() {
-    const chatContainer = document.getElementById('ai-chat');
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
-    const messagesDiv = document.getElementById('chat-messages');
-    
-    // Auto-open chat after 2s
-    setTimeout(() => {
-        chatContainer.style.display = 'block';
-        gsap.from(chatContainer, { 
-            scale: 0, 
-            rotation: 180, 
-            duration: 0.5,
-            ease: 'back.out(1.7)'
-        });
-    }, 2000);
+// ==============================
+// 🔊 SOUND
+// ==============================
+const sound = document.getElementById("clickSound");
 
-    async function sendMessage() {
-        const message = chatInput.value.trim();
-        if (!message) return;
+document.querySelectorAll("button").forEach(btn => {
+btn.addEventListener("click", () => {
+sound.currentTime = 0;
+sound.play();
+});
+});
 
-        // Add user message
-        addMessage(message, 'user');
-        chatInput.value = '';
-        sendBtn.disabled = true;
-        sendBtn.textContent = '🤖 AI typing...';
+// ==============================
+// 🎬 GSAP ANIMATIONS
+// ==============================
+gsap.from(".hero h1", {
+y: -50,
+opacity: 0,
+duration: 1
+});
 
-        try {
-            // Get AI response
-            const aiResponse = await getAIResponse(message);
-            addMessage(aiResponse, 'ai');
-        } catch (error) {
-            addMessage('🤖 Oops! AI crashed! Try again! 😅', 'ai');
-        } finally {
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'Send';
-        }
-    }
+gsap.from(".typing", {
+opacity: 0,
+delay: 1,
+duration: 1
+});
 
-    function addMessage(text, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${sender}`;
-        messageDiv.textContent = text;
-        messagesDiv.appendChild(messageDiv);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        
-        // Animate message
-        gsap.from(messageDiv, {
-            scale: 0,
-            opacity: 0,
-            duration: 0.3,
-            ease: 'back.out(1.7)'
-        });
-    }
+gsap.from(".buttons button", {
+y: 50,
+opacity: 0,
+delay: 1.5,
+stagger: 0.2
+});
 
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
-    });
+gsap.from(".project-card", {
+scrollTrigger: ".projects",
+y: 100,
+opacity: 0,
+stagger: 0.2
+});
+
+// ==============================
+// ✨ PARTICLES
+// ==============================
+particlesJS("particles-js", {
+particles: {
+number: { value: 80 },
+size: { value: 3 },
+move: { speed: 2 },
+line_linked: { enable: true },
+color: { value: "#8a2be2" }
 }
-
-// Custom Cursor (Bonus!)
-function initCursor() {
-    const cursor = document.createElement('div');
-    cursor.id = 'custom-cursor';
-    cursor.style.cssText = `
-        position: fixed;
-        width: 20px;
-        height: 20px;
-        background: radial-gradient(circle, rgba(102,126,234,0.8) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        mix-blend-mode: difference;
-        transition: transform 0.1s ease;
-    `;
-    document.body.appendChild(cursor);
-
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-}
-
-// INTERSECTION OBSERVER for scroll animations
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                gsap.to(entry.target, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: 'power3.out'
-                });
-            }
-        });
-    });
-
-    document.querySelectorAll('.section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(50px)';
-        observer.observe(section);
-    });
-}
-
-// Initialize Everything
-document.addEventListener('DOMContentLoaded', () => {
-    init3DBackground();
-    initAnimations();
-    initNavbar();
-    initFeedbackForm();
-    initAIChat();
-    initCursor();
-    initScrollAnimations();
-    
-    console.log('🚀 Portfolio loaded! Ready to impress! 💥');
 });
