@@ -121,6 +121,9 @@ function initNavbar() {
 }
 
 // Feedback Form (Firebase)
+// Add this to your existing script.js (replace feedback function)
+
+// Updated Feedback Form (Firebase v12)
 function initFeedbackForm() {
     const form = document.getElementById('feedback-form');
     
@@ -134,33 +137,40 @@ function initFeedbackForm() {
         };
         
         try {
-            await saveFeedback(formData);
-            form.reset();
+            const success = await saveFeedback(formData); // Now works with v12!
             
-            // Success Animation
-            gsap.to(form, { 
-                scale: 0.95, 
-                duration: 0.1, 
-                yoyo: true, 
-                repeat: 1 
-            });
-            
-            // Success Message
-            const btn = form.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Saved! Thank you! ✨';
-            btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-            
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '';
-            }, 3000);
+            if (success) {
+                form.reset();
+                
+                // Success Animation 🎉
+                gsap.to(form, { 
+                    scale: 0.95, 
+                    duration: 0.1, 
+                    yoyo: true, 
+                    repeat: 1 
+                });
+                
+                // Success Message
+                const btn = form.querySelector('button');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Saved to Firebase! Thank you Shiva! ✨';
+                btn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 4000);
+            }
             
         } catch (error) {
-            alert('❌ Network error! Check console.');
+            console.error('Firebase Error:', error);
+            alert('❌ Network error! Check internet connection.');
         }
     });
 }
+        
+
+
 
 // AI Chat (OpenRouter)
 function initAIChat() {
