@@ -171,6 +171,26 @@ function initFeedbackForm() {
         
 
 
+// New function to talk to Vercel Backend instead of direct OpenRouter
+async function getAIResponse(message) {
+    const response = await fetch('/api/ask', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: "openrouter/auto",
+            messages: [{ role: "user", content: message }]
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error('API request failed');
+    }
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
 
 // AI Chat (OpenRouter)
 function initAIChat() {
