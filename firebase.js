@@ -1,46 +1,58 @@
-// Firebase Config - Replace with YOUR config
-const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "YOUR_APP_ID"
-};
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  // Firebase v12 Modular SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, limit } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-// Save Feedback to Firestore
-window.saveFeedback = async function(formData) {
+  // Your Firebase Config ✅
+  const firebaseConfig = {
+    apiKey: "AIzaSyB9uCmYs0teDFqq2Gz-AbOjP35YnVSwaBc",
+    authDomain: "portfolio-shivasaini.firebaseapp.com",
+    projectId: "portfolio-shivasaini",
+    storageBucket: "portfolio-shivasaini.firebasestorage.app",
+    messagingSenderId: "302309151982",
+    appId: "1:302309151982:web:cb3abc344cb10d2b1f4fff",
+    measurementId: "G-6DQENZQ9W3"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 🔥 Save Feedback to Firestore (Global function for script.js)
+  window.saveFeedback = async function(formData) {
     try {
-        await db.collection('feedback').add({
-            name: formData.name,
-            email: formData.email,
-            message: formData.message,
-            timestamp: firebase.firestore.Timestamp.now()
-        });
-        console.log('✅ Feedback saved!');
-        return true;
+      await addDoc(collection(db, 'feedback'), {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        timestamp: serverTimestamp()
+      });
+      console.log('✅ Feedback saved to Firestore!');
+      return true;
     } catch (error) {
-        console.error('❌ Error:', error);
-        throw error;
+      console.error('❌ Firebase Error:', error);
+      throw error;
     }
-};
+  };
 
-// Load Feedback (Optional - for admin view)
-window.loadFeedback = async function() {
+  // 🔥 Load Recent Feedback (Optional)
+  window.loadFeedback = async function(callback) {
     try {
-        const snapshot = await db.collection('feedback')
-            .orderBy('timestamp', 'desc')
-            .limit(10)
-            .get();
-        
-        snapshot.forEach(doc => {
-            console.log(doc.data());
+      const q = query(collection(db, 'feedback'), 
+        orderBy('timestamp', 'desc'), 
+        limit(5)
+      );
+      
+      onSnapshot(q, (snapshot) => {
+        const feedbackList = [];
+        snapshot.forEach((doc) => {
+          feedbackList.push({ id: doc.id, ...doc.data() });
         });
+        if (callback) callback(feedbackList);
+      });
     } catch (error) {
-        console.error('Error loading feedback:', error);
+      console.error('Error loading feedback:', error);
     }
-};
+  };
+
+  console.log('🔥 Firebase initialized! Ready for feedback & chat!');
