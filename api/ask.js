@@ -20,7 +20,7 @@ const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   headers: {
     "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
     "Content-Type": "application/json",
-    "HTTP-Referer": "https://your-site.vercel.app", // optional but recommended
+    "HTTP-Referer": ""HTTP-Referer": "https://shivasainiportfolio.vercel.app", // optional but recommended
     "X-Title": "Shiva Portfolio AI"
   },
   body: JSON.stringify({
