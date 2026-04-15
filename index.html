@@ -1,125 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio | Dev & Gamer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiva | Developer</title>  <!-- Fonts -->  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">  <!-- GSAP -->  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>  <!-- Particles -->  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>   <link rel="stylesheet" href="style.css">
+</head><body><!-- 🌌 Background --><div id="particles-js"></div>
+<div class="cursor"></div><!-- 🔵 Loader --><div id="loader">
+  <h1>Entering Shiva's Universe...</h1>
+</div><!-- 🟣 Main Content --><main id="main">  <!-- HERO -->  <section class="hero">
+    <h1>Hi, I'm <span>Shiva</span></h1>
+    <p class="typing"></p><div class="buttons">
+  <button onclick="scrollToProjects()">Explore</button>
+  <button id="openAI">AI Chat</button>
+</div>
 
-    <nav class="navbar">
-        <div class="logo">PORTFOLIO</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#game">Game</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="social-icons-top">
-            <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
-        </div>
-    </nav>
+  </section>  <!-- 🧠 About -->  <section class="about">
+    <h2>About Me</h2>
+    <p>I’m a creative frontend developer who builds interactive and engaging web experiences.</p>
+  </section>  <!-- 🚀 Projects -->  <section class="projects">
+    <h2>Projects</h2>
+    <div class="project-card">Game Project 🎮</div>
+    <div class="project-card">Quiz App 📊</div>
+    <div class="project-card">Portfolio 🌐</div>
+  </section>  <!-- 🤖 AI Section (NEW - better for mobile) -->  <section class="ai-section">
+    <h2>AI Assistant 🤖</h2><div class="ai-chat hidden">
+  <div class="ai-header">
+    Shiva AI 🤖
+    <span id="closeAI" style="float:right; cursor:pointer;">❌</span>
+  </div>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hi, I'm <span class="highlight">Your Name</span></h1>
-            <p>Full Stack Developer | AI Enthusiast | Gamer</p>
-            <a href="#projects" class="btn">View My Work</a>
-        </div>
-    </section>
+  <div class="ai-messages"></div>
 
-    <section id="skills" class="skills-section">
-        <h2 class="section-title">My Skills</h2>
-        <div class="skills-container">
-            <div class="skill-card"><i class="fab fa-react"></i> <span>React</span></div>
-            <div class="skill-card"><i class="fab fa-js"></i> <span>JavaScript</span></div>
-            <div class="skill-card"><i class="fab fa-node-js"></i> <span>Node.js</span></div>
-            <div class="skill-card"><i class="fab fa-python"></i> <span>Python</span></div>
-            <div class="skill-card"><i class="fas fa-database"></i> <span>MongoDB</span></div>
-            <div class="skill-card"><i class="fas fa-code-branch"></i> <span>Git</span></div>
-        </div>
-    </section>
+  <input type="text" id="ai-input" placeholder="Ask me anything..." />
+</div>
 
-    <section id="projects" class="projects-section">
-        <h2 class="section-title">Latest Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-img"></div>
-                <div class="project-info">
-                    <h3>Project Name 1</h3>
-                    <p>Brief description of the project and the tech stack used.</p>
-                    <a href="#" class="project-link">Source Code <i class="fas fa-external-link-alt"></i></a>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-img"></div>
-                <div class="project-info">
-                    <h3>Project Name 2</h3>
-                    <p>Brief description of the project and the tech stack used.</p>
-                    <a href="#" class="project-link">Source Code <i class="fas fa-external-link-alt"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+  </section>  <!-- 📩 Contact -->  <section class="contact">
+    <h2>Contact Me</h2>
+    <button>Email Me</button>
+  </section>  <!-- 🎮 Game -->  <section class="game">
+    <h2>Mini Game 🎮</h2>
+    <button onclick="startGame()">Start Game</button>
+    <p id="game-result"></p>
+  </section></main><!-- 🔊 Sound --><audio id="clickSound" src="assets/click.mp3"></audio>
 
-    <section id="game" class="game-section">
-        <h2 class="section-title">Mini Game Zone</h2>
-        <div class="game-container">
-            <canvas id="gameCanvas"></canvas>
-            <div id="game-overlay">
-                <button id="start-game-btn">Play Game</button>
-            </div>
-        </div>
-        <p class="game-instruction">Control using Arrow Keys!</p>
-    </section>
-
-    <section id="contact" class="contact-section">
-        <h2 class="section-title">Get In Touch</h2>
-        <div class="contact-container">
-            <form id="feedback-form">
-                <input type="text" name="name" placeholder="Your Name" required>
-                <input type="email" name="email" placeholder="Your Email" required>
-                <textarea name="message" rows="5" placeholder="Your Message/Feedback" required></textarea>
-                <button type="submit" class="btn">Send Feedback</button>
-            </form>
-        </div>
-    </section>
-
-    <div id="ai-chat-launcher">
-        <i class="fas fa-robot"></i>
-    </div>
-
-    <div id="ai-chat-window" class="hidden">
-        <div class="chat-header">
-            <span>AI Assistant</span>
-            <button id="close-chat">&times;</button>
-        </div>
-        <div id="chat-messages">
-            <div class="bot-msg">Hello! I'm your AI assistant. How can I help you today?</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="user-input" placeholder="Ask me anything...">
-            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="footer-socials">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-        <p>&copy; 2026 Your Name. All Rights Reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <script src="game.js"></script>
-</body>
-                                                                                                            </html>
-                                      
+<!-- 🔌 Scripts --><script type="module" src="firebase.js"></script> <!-- future firebase --><script src="script.js"></script></body>
+</html>
