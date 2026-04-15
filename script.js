@@ -183,7 +183,18 @@ y: 100,
 opacity: 0,
 stagger: 0.2
 });
-
+// Skills animation on scroll
+gsap.utils.toArray('.skill-progress').forEach(bar => {
+  gsap.to(bar, {
+    scrollTrigger: {
+      trigger: bar,
+      start: "top 80%",
+    },
+    width: bar.dataset.percent + "%",
+    duration: 1.5,
+    ease: "power2.out"
+  });
+});
 // ==============================
 // ✨ PARTICLES
 // ==============================
