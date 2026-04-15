@@ -6,10 +6,10 @@ project-root/
 ├── firebase.js
 │
 ├── api/
-│   └── ask.js
+│   └── ask.js ( Vercel Serverless Api Intit)
 │
 ├── assets/          
-    ├── images/
-    ├── icons/ 
-    └── fonts/
-        
+    project1.jpg
+    project2.jpg
+    project3.jpg
+    project4.jpg
