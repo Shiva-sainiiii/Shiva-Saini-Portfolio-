@@ -123,7 +123,26 @@ document.getElementById("game-result").innerText = "🔥 You won!";
 document.getElementById("game-result").innerText = "😅 Try again!";
 }
 }
+const feedbackForm = document.getElementById('feedbackForm');
+const status = document.getElementById('feedback-status');
 
+if (feedbackForm) {
+  feedbackForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    // Abhi ke liye console me log kar rahe hain
+    console.log({ name, email, message });
+    
+    status.textContent = "Thanks for your feedback, " + name + "!";
+    feedbackForm.reset();
+    
+    // Yaha Firebase ya EmailJS integrate kar sakte ho data save karne ke liye
+  });
+}
 // ==============================
 // 🔊 SOUND
 // ==============================
