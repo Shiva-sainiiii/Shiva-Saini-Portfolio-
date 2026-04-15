@@ -115,6 +115,16 @@ transition: 0.3s;
 transform: scale(1.05);
 background: #8a2be2;
 }
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.project-card img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
 
 /* 🖱️ Cursor */
 .cursor {
