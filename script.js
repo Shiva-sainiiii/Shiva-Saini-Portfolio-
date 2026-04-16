@@ -1,209 +1,152 @@
-// 🔥 IMPORT FIREBASE
-import { saveChat } from "./firebase.js";
-
-// 🔵 Loader
-window.addEventListener("load", () => {
-setTimeout(() => {
-document.getElementById("loader").style.display = "none";
-}, 2000);
+// ==============================
+// ✨ PARTICLES INIT
+// ==============================
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 80 },
+    size: { value: 3 },
+    move: { speed: 2 },
+    line_linked: { enable: true },
+    color: { value: "#8a2be2" }
+  }
 });
 
-// ✍️ Typing Effect
-const text = "I build smart & interactive web experiences 🚀";
-let index = 0;
-
-function typeEffect() {
-if (index < text.length) {
-document.querySelector(".typing").innerHTML += text.charAt(index);
-index++;
-setTimeout(typeEffect, 50);
-}
-}
-typeEffect();
-
-// 🖱️ Custom Cursor
-const cursor = document.querySelector(".cursor");
-
-document.addEventListener("mousemove", (e) => {
-cursor.style.top = e.clientY + "px";
-cursor.style.left = e.clientX + "px";
-});
-
-// 🔽 Scroll
-function scrollToProjects() {
-document.querySelector(".projects").scrollIntoView({
-behavior: "smooth"
-});
-}
 
 // ==============================
-// 🤖 AI CHAT SYSTEM (UPDATED)
+// ⌨️ TYPING EFFECT
 // ==============================
-const input = document.getElementById("ai-input");
-const messages = document.querySelector(".ai-messages");
+const roles = ["Full Stack Developer", "AI Enthusiast", "Creative Coder"];
+let i = 0;
+let j = 0;
+let currentRole = "";
+let isDeleting = false;
 
-// Add message UI
-function addMessage(text) {
-let div = document.createElement("div");
-div.innerText = text;
-messages.appendChild(div);
-messages.scrollTop = messages.scrollHeight;
+function type() {
+  currentRole = roles[i];
+
+  if (!isDeleting) {
+    document.querySelector(".typing").textContent = currentRole.substring(0, j++);
+    if (j > currentRole.length) {
+      isDeleting = true;
+      setTimeout(type, 1000);
+      return;
+    }
+  } else {
+    document.querySelector(".typing").textContent = currentRole.substring(0, j--);
+    if (j < 0) {
+      isDeleting = false;
+      i = (i + 1) % roles.length;
+    }
+  }
+
+  setTimeout(type, isDeleting ? 50 : 100);
 }
 
-// 🔥 REAL AI (Vercel API)
-async function getAIResponse(msg) {
-try {
-const res = await fetch("/api/ask", {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({ message: msg })
-});
+type();
 
-const data = await res.json();
-return data.choices[0].message.content;
-
-} catch (err) {
-return "⚠️ Error connecting AI...";
-}
-}
-
-// Enter press
-input.addEventListener("keypress", async function(e) {
-if (e.key === "Enter") {
-
-let userText = input.value.trim();
-if (!userText) return;
-
-addMessage("You: " + userText);
-input.value = "";
-
-// Loading
-addMessage("AI is typing...");
-
-const reply = await getAIResponse(userText);
-
-// Remove "typing..."
-messages.lastChild.remove();
-
-addMessage("AI: " + reply);
-
-// 🔥 SAVE CHAT
-saveChat(userText, reply);
-
-}
-});
-
-// ==============================
-// 🎛️ AI OPEN / CLOSE
-// ==============================
-const openBtn = document.getElementById("openAI");
-const closeBtn = document.getElementById("closeAI");
-const chatBox = document.querySelector(".ai-chat");
-
-openBtn.addEventListener("click", () => {
-chatBox.classList.remove("hidden");
-});
-
-closeBtn.addEventListener("click", () => {
-chatBox.classList.add("hidden");
-});
-
-// ==============================
-// 🎮 GAME
-// ==============================
-function startGame() {
-let number = Math.floor(Math.random() * 5) + 1;
-let guess = prompt("Guess number (1-5)");
-
-if (guess == number) {
-document.getElementById("game-result").innerText = "🔥 You won!";
-} else {
-document.getElementById("game-result").innerText = "😅 Try again!";
-}
-}
-const feedbackForm = document.getElementById('feedbackForm');
-const status = document.getElementById('feedback-status');
-
-if (feedbackForm) {
-  feedbackForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
-    
-    // Abhi ke liye console me log kar rahe hain
-    console.log({ name, email, message });
-    
-    status.textContent = "Thanks for your feedback, " + name + "!";
-    feedbackForm.reset();
-    
-    // Yaha Firebase ya EmailJS integrate kar sakte ho data save karne ke liye
-  });
-}
-// ==============================
-// 🔊 SOUND
-// ==============================
-const sound = document.getElementById("clickSound");
-
-document.querySelectorAll("button").forEach(btn => {
-btn.addEventListener("click", () => {
-sound.currentTime = 0;
-sound.play();
-});
-});
 
 // ==============================
 // 🎬 GSAP ANIMATIONS
 // ==============================
-gsap.from(".hero h1", {
-y: -50,
-opacity: 0,
-duration: 1
-});
+gsap.registerPlugin(ScrollTrigger);
 
-gsap.from(".typing", {
-opacity: 0,
-delay: 1,
-duration: 1
-});
-
-gsap.from(".buttons button", {
-y: 50,
-opacity: 0,
-delay: 1.5,
-stagger: 0.2
-});
-
-gsap.from(".project-card", {
-scrollTrigger: ".projects",
-y: 100,
-opacity: 0,
-stagger: 0.2
-});
-// Skills animation on scroll
-gsap.utils.toArray('.skill-progress').forEach(bar => {
-  gsap.to(bar, {
+gsap.utils.toArray(".section").forEach(section => {
+  gsap.to(section, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
     scrollTrigger: {
-      trigger: bar,
-      start: "top 80%",
-    },
-    width: bar.dataset.percent + "%",
-    duration: 1.5,
-    ease: "power2.out"
+      trigger: section,
+      start: "top 80%"
+    }
   });
 });
+
+
 // ==============================
-// ✨ PARTICLES
+// 🤖 AI CHAT
 // ==============================
-particlesJS("particles-js", {
-particles: {
-number: { value: 80 },
-size: { value: 3 },
-move: { speed: 2 },
-line_linked: { enable: true },
-color: { value: "#8a2be2" }
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const chatBox = document.getElementById("chatBox");
+
+  const message = input.value.trim();
+  if (!message) return;
+
+  // Show user message
+  chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+
+  input.value = "";
+
+  try {
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message })
+    });
+
+    const data = await res.json();
+
+    // Show AI response
+    chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+
+    // Save to Firestore
+    if (window.saveChat) {
+      saveChat(message, data.reply);
+    }
+
+  } catch (err) {
+    chatBox.innerHTML += `<p style="color:red;">Error connecting to AI</p>`;
+  }
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+
+// ==============================
+// 🎮 MINI GAME (CLICK SPEED)
+// ==============================
+let score = 0;
+
+const gameBtn = document.getElementById("gameBtn");
+const scoreDisplay = document.getElementById("score");
+
+gameBtn.addEventListener("click", () => {
+  score++;
+  scoreDisplay.textContent = "Score: " + score;
+});
+
+
+// ==============================
+// 📩 FEEDBACK FORM
+// ==============================
+const form = document.getElementById("feedbackForm");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const message = document.getElementById("message").value;
+
+  if (window.saveFeedback) {
+    saveFeedback(name, message);
+  }
+
+  alert("Thanks for your feedback!");
+
+  form.reset();
+});
+
+
+// ==============================
+// 🎯 OPTIONAL: SMOOTH SCROLL
+// ==============================
+document.querySelectorAll("a[href^='#']").forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute("href"))
+      .scrollIntoView({ behavior: "smooth" });
+  });
 });
