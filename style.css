@@ -168,21 +168,27 @@ h2 {
   color: white;
   cursor: pointer;
 }
-
 /* ===============================
-   GAME
+   🐍 SNAKE GAME
 ================================ */
-#gameBtn {
-  padding: 15px 30px;
+#gameCanvas {
+  background: #111;
+  border-radius: 10px;
   margin-top: 20px;
-  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(138,43,226,0.5);
+}
+
+#restartBtn {
+  margin-top: 15px;
+  padding: 8px 20px;
+  border-radius: 20px;
   border: none;
-  background: linear-gradient(45deg, #ff0080, #ff8c00);
+  background: linear-gradient(45deg, #8a2be2, #00d4ff);
   color: white;
   cursor: pointer;
 }
 
-#gameBtn:hover {
+#restartBtn:hover {
   transform: scale(1.1);
 }
 
