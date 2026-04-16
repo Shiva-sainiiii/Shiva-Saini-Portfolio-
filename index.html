@@ -1,139 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shiva | Developer</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shiva Saini | Portfolio</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Particles -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <!-- Particles -->
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-  
-  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-  <!-- 🌌 Background -->
+
+  <!-- PARTICLES BACKGROUND -->
   <div id="particles-js"></div>
-  <div class="cursor"></div>
-  
-  <!-- 🔵 Loader -->
-  <div id="loader">
-    <h1>Entering Shiva's Universe...</h1>
-  </div>
-  
-  <!-- 🟣 Main Content -->
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero">
-      <h1>Hi, I'm <span>Shiva</span></h1>
-      <p class="typing"></p>
-      <div class="buttons">
-        <button onclick="scrollToProjects()">Explore</button>
-        <button id="openAI">AI Chat</button>
-      </div>
-    </section>
-    
-    <!-- 🧠 About -->
-    <section class="about">
-      <h2>About Me</h2>
-      <p>I’m a creative frontend developer who builds interactive and engaging web experiences.</p>
-    </section>
-    
-    <!-- 🚀 Projects -->
-<section class="projects">
-  <h2>Projects</h2>
-  <div class="projects-grid">
-    <div class="project-card">
-      <img src="assets/project1.jpg">
-      <h3>Project 1</h3>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="glass hero-content">
+      <h1 class="name">Shiva Saini</h1>
+      <h2 class="typing"></h2>
+      <p class="tagline">Full Stack Developer | AI Enthusiast</p>
+      <a href="assets/resume.pdf" class="btn" download>Download Resume</a>
     </div>
-    <div class="project-card">
-      <img src="assets/project2.jpg" alt="Project 2">
-      <h3>Project 2</h3>
-    </div>
-    <div class="project-card">
-      <img src="/assets/project3.jpg" alt="Project 3">
-      <h3>Project 3</h3>
-    </div>
-    <div class="project-card">
-      <img src="/assets/project4.jpg" alt="Project 4">
-      <h3>Project 4</h3>
-    </div>
-  </div>
-</section>
-    <!-- 🛠️ Skills -->
-<section class="skills">
-  <h2>My Skills</h2>
-  <div class="skills-grid">
-    <div class="skill-card">
-      <h3>HTML</h3>
-      <div class="skill-bar">
-        <div class="skill-progress" data-percent="95"></div>
-      </div>
-    <div class="skill-card">
-      <h3>CSS</h3>
-      <div class="skill-bar">
-        <div class="skill-progress" data-percent="90"></div>
-      </div>
-    <div class="skill-card">
-      <h3>JavaScript</h3>
-      <div class="skill-bar">
-        <div class="skill-progress" data-percent="85"></div>
-      </div>
-    <div class="skill-card">
-      <h3>React</h3>
-      <div class="skill-bar">
-        <div class="skill-progress" data-percent="80"></div>
-      </div>
-   
-    <!-- 🤖 AI Section (NEW - better for mobile) -->
-    <section class="ai-section">
-      <h2>AI Assistant 🤖</h2>
-      <div class="ai-chat hidden">
-        <div class="ai-header">
-          Shiva AI 🤖
-          <span id="closeAI" style="float:right; cursor:pointer;">❌</span>
-        </div>
-        <div class="ai-messages"></div>
-        <input type="text" id="ai-input" placeholder="Ask me anything..." />
-      </div>
-    </section>
-    
-    <!-- 📩 Contact -->
-    <section class="contact">
-      <h2>Contact Me</h2>
-      <button>Email Me</button>
-    </section>
-    
-    <!-- 🎮 Game -->
-    <section class="game">
-      <h2>Mini Game 🎮</h2>
-      <button onclick="startGame()">Start Game</button>
-      <p id="game-result"></p>
-    </section>
-  </main>
-  <!-- 💬 Feedback -->
-<section class="feedback">
-  <h2>Feedback</h2>
-  <form id="feedbackForm">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
-    <textarea id="message" placeholder="Your Feedback..." rows="4" required></textarea>
-    <button type="submit">Send Feedback</button>
-    <p id="feedback-status"></p>
-  </form>
   </section>
-  <!-- 🔊 Sound -->
-  <audio id="clickSound" src="assets/click.mp3"></audio>
-  
-  <!-- 🔌 Scripts -->
-  <script type="module" src="firebase.js"></script> <!-- future firebase -->
-  <script type="module" src="script.js"></script>
+
+  <!-- ABOUT -->
+  <section class="about section">
+    <div class="glass">
+      <h2>About Me</h2>
+      <p>
+        I am a passionate developer focused on building modern web applications using MERN stack,
+        animations, and AI integrations. I love creating interactive and user-friendly experiences.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills section">
+    <div class="glass">
+      <h2>Skills</h2>
+      <div class="skill-tags">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>React</span>
+        <span>Node.js</span>
+        <span>MongoDB</span>
+        <span>Firebase</span>
+        <span>GSAP</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects section">
+    <h2>Projects</h2>
+    <div class="project-container">
+
+      <div class="project-card glass">
+        <img src="assets/project1.jpg" alt="Project 1">
+        <h3>Project One</h3>
+        <p>Modern web app with animations</p>
+      </div>
+
+      <div class="project-card glass">
+        <img src="assets/project2.jpg" alt="Project 2">
+        <h3>Project Two</h3>
+        <p>MERN stack application</p>
+      </div>
+
+      <div class="project-card glass">
+        <img src="assets/project3.jpg" alt="Project 3">
+        <h3>Project Three</h3>
+        <p>AI-powered tool</p>
+      </div>
+
+      <div class="project-card glass">
+        <img src="assets/project4.jpg" alt="Project 4">
+        <h3>Project Four</h3>
+        <p>Creative frontend project</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AI CHAT -->
+  <section class="ai-chat section">
+    <div class="glass">
+      <h2>Ask Me Anything 🤖</h2>
+
+      <div class="chat-box" id="chatBox"></div>
+
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Ask something about me..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MINI GAME -->
+  <section class="game section">
+    <div class="glass">
+      <h2>Mini Game 🎮</h2>
+      <p>Click as fast as you can!</p>
+      <button id="gameBtn">Click Me</button>
+      <p id="score">Score: 0</p>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section class="feedback section">
+    <div class="glass">
+      <h2>Feedback</h2>
+      <form id="feedbackForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <textarea id="message" placeholder="Your Feedback" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Connect with me</p>
+    <div class="socials">
+      <a href="#">GitHub</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="firebase.js" type="module"></script>
+  <script src="script.js"></script>
+
 </body>
         </html>
