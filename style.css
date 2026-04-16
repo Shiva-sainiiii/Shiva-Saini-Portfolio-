@@ -235,7 +235,119 @@ button {
   opacity: 0;
   transform: translateY(50px);
 }
+/* ===============================
+   🤖 FLOATING AI BUTTON
+================================ */
+#ai-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(45deg, #8a2be2, #00d4ff);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(138,43,226,0.5);
+  transition: 0.3s;
+}
 
+#ai-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* ===============================
+   💬 CHAT CONTAINER
+================================ */
+#ai-chat-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 320px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.6);
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+#ai-chat-container.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* HEADER */
+.chat-header {
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* CHAT BOX */
+.chat-box {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+/* MESSAGE STYLE */
+.chat-box p {
+  margin: 5px 0;
+}
+
+.chat-box .user {
+  text-align: right;
+  color: #00d4ff;
+}
+
+.chat-box .ai {
+  text-align: left;
+  color: #8a2be2;
+}
+
+/* INPUT */
+.chat-input {
+  display: flex;
+  padding: 10px;
+  gap: 5px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+}
+
+.chat-input button {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: none;
+  background: #8a2be2;
+  color: white;
+  cursor: pointer;
+}
+
+/* HIDDEN CLASS */
+.hidden {
+  display: none;
+   }
 /* ===============================
    RESPONSIVE
 ================================ */
