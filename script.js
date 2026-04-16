@@ -62,7 +62,17 @@ gsap.utils.toArray(".section").forEach(section => {
   });
 });
 
-
+// PROJECT ANIMATION
+gsap.from(".project-card", {
+  opacity: 0,
+  y: 80,
+  duration: 1,
+  stagger: 0.2,
+  scrollTrigger: {
+    trigger: ".projects",
+    start: "top 80%"
+  }
+});
 // ==============================
 // 🤖 TOGGLE CHAT
 // ==============================
