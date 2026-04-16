@@ -64,7 +64,23 @@ gsap.utils.toArray(".section").forEach(section => {
 
 
 // ==============================
-// 🤖 AI CHAT
+// 🤖 TOGGLE CHAT
+// ==============================
+const toggleBtn = document.getElementById("ai-toggle");
+const chatContainer = document.getElementById("ai-chat-container");
+const closeBtn = document.getElementById("close-chat");
+
+toggleBtn.addEventListener("click", () => {
+  chatContainer.classList.toggle("active");
+});
+
+closeBtn.addEventListener("click", () => {
+  chatContainer.classList.remove("active");
+});
+
+
+// ==============================
+// 🤖 UPGRADED AI CHAT
 // ==============================
 async function sendMessage() {
   const input = document.getElementById("userInput");
@@ -73,10 +89,16 @@ async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
 
-  // Show user message
-  chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
-
+  // USER MESSAGE
+  chatBox.innerHTML += `<p class="user">You: ${message}</p>`;
   input.value = "";
+
+  // Typing indicator
+  const typing = document.createElement("p");
+  typing.textContent = "AI is typing...";
+  chatBox.appendChild(typing);
+
+  chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
     const res = await fetch("/api/ask", {
@@ -89,20 +111,21 @@ async function sendMessage() {
 
     const data = await res.json();
 
-    // Show AI response
-    chatBox.innerHTML += `<p><strong>AI:</strong> ${data.reply}</p>`;
+    typing.remove();
 
-    // Save to Firestore
+    // AI MESSAGE
+    chatBox.innerHTML += `<p class="ai">AI: ${data.reply}</p>`;
+
     if (window.saveChat) {
       saveChat(message, data.reply);
     }
 
   } catch (err) {
-    chatBox.innerHTML += `<p style="color:red;">Error connecting to AI</p>`;
+    typing.textContent = "Error connecting...";
   }
 
   chatBox.scrollTop = chatBox.scrollHeight;
-}
+  }
 
 
 // ==============================
