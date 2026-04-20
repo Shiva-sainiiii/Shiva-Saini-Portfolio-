@@ -70,4 +70,5 @@ Rules:
     console.error("API ERROR:", error);
     return res.status(500).json({ error: "Something went wrong" });
   }
-}
+      }
+      
