@@ -3,244 +3,1487 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Shiva Saini — Full Stack Developer & AI Enthusiast. Building modern, impactful digital experiences.">
+  <meta name="theme-color" content="#0f0f1a">
+  <meta property="og:title" content="Shiva Saini | Portfolio">
+  <meta property="og:description" content="Full Stack Developer & AI Enthusiast">
   <title>Shiva Saini | Portfolio</title>
 
-  <meta name="description" content="Portfolio of Shiva Saini - Developer & Digital Creator">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+  <!-- Particles -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js" defer></script>
+
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    /* ─── FONT OVERRIDE ─── */
+    * { font-family: 'Space Grotesk', sans-serif; }
+    h1, h2, .nav-logo { font-family: 'Syne', sans-serif; }
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    /* ─── SCROLL PROGRESS BAR ─── */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #8a2be2, #00d4ff);
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
 
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 5%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 15, 26, 0.6);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(15, 15, 26, 0.9);
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.25s;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(138, 43, 226, 0.25);
+    }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE NAV ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(15, 15, 26, 0.97);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      padding: 20px 5%;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    .mobile-nav a:hover { background: rgba(138,43,226,0.2); color: #fff; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 64px;
+    }
+
+    .hero-content {
+      max-width: 680px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #00d4ff;
+      border: 1px solid rgba(0,212,255,0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .name {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #8a2be2 50%, #00d4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .typing-wrap {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: #aaa;
+      min-height: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .typing-wrap .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: #00d4ff;
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(138,43,226,0.4); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .btn-outline:hover {
+      border-color: #8a2be2;
+      background: rgba(138,43,226,0.1);
+      box-shadow: 0 8px 25px rgba(138,43,226,0.2);
+    }
+
+    /* ─── HIGHLIGHTS ─── */
+    .highlights { padding: 40px 5%; }
+
+    .highlight-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .highlight-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      transition: 0.3s;
+    }
+
+    .highlight-card:hover {
+      background: rgba(138,43,226,0.1);
+      border-color: rgba(138,43,226,0.3);
+      transform: translateY(-4px);
+    }
+
+    .highlight-card .icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .highlight-card p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+
+    /* ─── SECTION TITLES ─── */
+    .section-title {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,0.6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 40px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      text-align: left;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+    }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stat-item {
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-item .stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      min-width: 52px;
+    }
+
+    .stat-item .stat-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+    }
+
+    /* ─── SKILLS ─── */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .skill-tags span {
+      padding: 8px 18px;
+      border-radius: 30px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: 0.25s;
+      cursor: default;
+    }
+
+    .skill-tags span:hover {
+      background: rgba(138,43,226,0.25);
+      border-color: #8a2be2;
+      transform: translateY(-2px);
+    }
+
+    /* ─── PROJECTS ─── */
+    .project-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.4s;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: 0.5s;
+      display: block;
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,20,0.97) 40%, rgba(10,10,20,0.4));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      transform: translateY(100%);
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .project-card:hover .project-overlay { transform: translateY(0); }
+    .project-card:hover img { transform: scale(1.08); }
+
+    .project-overlay h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .project-overlay p { font-size: 0.82rem; color: rgba(255,255,255,0.55); margin-bottom: 12px; }
+
+    .project-buttons a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      color: white;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .project-buttons a:hover { transform: scale(1.05); }
+
+    /* ─── CERTIFICATES ─── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .certificate-card {
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .certificate-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(138,43,226,0.4);
+      box-shadow: 0 10px 30px rgba(138,43,226,0.2);
+    }
+
+    .certificate-card img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+    }
+
+    /* ─── OFFER LETTERS ─── */
+    .offer-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 16px;
+    }
+
+    .offer-card {
+      text-align: center;
+      padding: 20px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      transition: 0.3s;
+    }
+
+    .offer-card:hover {
+      background: rgba(138,43,226,0.1);
+      border-color: rgba(138,43,226,0.3);
+      transform: translateY(-3px);
+    }
+
+    .offer-card img { filter: brightness(0.9); margin-bottom: 8px; }
+
+    .offer-card p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 10px;
+    }
+
+    .btn-small {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 20px;
+      background: rgba(138,43,226,0.3);
+      color: white;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(138,43,226,0.5);
+      transition: 0.2s;
+    }
+
+    .btn-small:hover { background: #8a2be2; }
+
+    /* ─── AI CHAT SECTION ─── */
+    .chat-section-inner { max-width: 700px; margin: 0 auto; }
+
+    .chat-box {
+      height: 260px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      text-align: left;
+      padding: 8px 4px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-box::-webkit-scrollbar { width: 4px; }
+    .chat-box::-webkit-scrollbar-track { background: transparent; }
+    .chat-box::-webkit-scrollbar-thumb { background: rgba(138,43,226,0.5); border-radius: 4px; }
+
+    .chat-msg {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      max-width: 85%;
+      line-height: 1.5;
+      animation: fadeUp 0.25s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-msg.user {
+      background: linear-gradient(135deg, rgba(138,43,226,0.35), rgba(0,212,255,0.2));
+      border: 1px solid rgba(138,43,226,0.3);
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .chat-msg.ai {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-right: auto;
+    }
+
+    .chat-msg.typing-dot {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.4);
+      font-style: italic;
+      font-size: 0.82rem;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .chat-input input:focus { border-color: rgba(138,43,226,0.5); }
+    .chat-input input::placeholder { color: rgba(255,255,255,0.3); }
+
+    .chat-input button {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      color: white;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+
+    .chat-input button:hover { transform: scale(1.05); }
+
+    /* ─── SNAKE GAME ─── */
+    .game-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #gameCanvas {
+      background: #0a0a14;
+      border-radius: 12px;
+      border: 1px solid rgba(138,43,226,0.3);
+      box-shadow: 0 0 30px rgba(138,43,226,0.3);
+      max-width: 100%;
+    }
+
+    .game-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    #score {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #00d4ff;
+    }
+
+    #restartBtn {
+      padding: 8px 22px;
+      border-radius: 20px;
+      border: none;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #restartBtn:hover { transform: scale(1.05); }
+
+    /* Mobile touch controls */
+    .touch-controls {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .touch-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .touch-btn {
+      width: 52px;
+      height: 52px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.15s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .touch-btn:active {
+      background: rgba(138,43,226,0.4);
+      border-color: #8a2be2;
+    }
+
+    /* ─── FEEDBACK ─── */
+    .feedback-inner { max-width: 600px; margin: 0 auto; }
+
+    #feedbackForm {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    #feedbackForm input,
+    #feedbackForm textarea {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.2s;
+      resize: vertical;
+    }
+
+    #feedbackForm input:focus,
+    #feedbackForm textarea:focus { border-color: rgba(138,43,226,0.5); }
+
+    #feedbackForm input::placeholder,
+    #feedbackForm textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    #feedbackForm button {
+      align-self: flex-start;
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(45deg, #8a2be2, #00d4ff);
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #feedbackForm button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(138,43,226,0.35); }
+
+    .feedback-display h3 {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 12px;
+    }
+
+    #feedback-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #feedback-list li {
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      font-size: 0.88rem;
+    }
+
+    #feedback-list li strong {
+      color: #00d4ff;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+    }
+
+    /* ─── SOCIAL ─── */
+    .social-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .social-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: 0.25s;
+    }
+
+    .social-link:hover {
+      background: rgba(138,43,226,0.15);
+      border-color: rgba(138,43,226,0.35);
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .social-link i { font-size: 1.1rem; color: #8a2be2; }
+
+    /* ─── FLOATING AI CHAT ─── */
+    #ai-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, #8a2be2, #00d4ff);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(138,43,226,0.5);
+      transition: 0.3s;
+    }
+
+    #ai-toggle:hover { transform: scale(1.1) rotate(10deg); }
+
+    #ai-chat-container {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      width: 320px;
+      height: 430px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 20px;
+      overflow: hidden;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      background: rgba(12, 12, 22, 0.92);
+      border: 1px solid rgba(138,43,226,0.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: translateY(16px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #ai-chat-container.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: all;
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, rgba(138,43,226,0.25), rgba(0,212,255,0.1));
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .chat-header h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    #close-chat {
+      cursor: pointer;
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      transition: 0.2s;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    #close-chat:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 36px 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    footer p { font-size: 0.85rem; color: rgba(255,255,255,0.3); }
+
+    footer a { color: rgba(138,43,226,0.8); text-decoration: none; }
+    footer a:hover { color: #00d4ff; }
+
+    /* ─── TOAST NOTIFICATION ─── */
+    #toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(20,20,35,0.95);
+      border: 1px solid rgba(138,43,226,0.4);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      backdrop-filter: blur(10px);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── GLASS ─── */
+    .glass {
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      padding: 32px;
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 0 40px rgba(138,43,226,0.08);
+    }
+
+    /* ─── SECTION ─── */
+    .section {
+      padding: 80px 5%;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .highlight-container {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+      }
+
+      .section { padding: 60px 5%; }
+
+      #ai-chat-container {
+        width: calc(100vw - 32px);
+        right: 16px;
+        bottom: 84px;
+      }
+
+      .touch-controls { display: flex; }
+
+      .glass { padding: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .name { font-size: 2rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .project-container { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-  <div id="particles-js"></div>
+<!-- ═══ SCROLL PROGRESS ═══ -->
+<div id="scroll-progress"></div>
 
-  <section class="hero">
-    <div class="glass hero-content">
-      <h1 class="name">Shiva Saini</h1>
-      <h2 class="typing"></h2>
-      <p class="tagline">Full Stack Developer | AI Enthusiast</p>
-      <p>A passionate Digital Creator & Developer, crafting modern and impactful digital experiences.</p>
-      <div class="hero-buttons" style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
-        <a href="#projects" class="btn">View Projects</a>
-        <a href="assets/resume.pdf" class="btn btn-outline" download>Download CV</a>
-      </div>
+<!-- ═══ TOAST ═══ -->
+<div id="toast"></div>
+
+<!-- ═══ PARTICLES ═══ -->
+<div id="particles-js"></div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">SS.</a>
+  <ul class="nav-links">
+    <li><a href="#highlights">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certificates">Certs</a></li>
+    <li><a href="#chat-section">Chat</a></li>
+    <li><a href="#feedback">Feedback</a></li>
+    <li><a href="#socials">Connect</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#highlights" class="mobile-link">About</a>
+  <a href="#skills" class="mobile-link">Skills</a>
+  <a href="#projects" class="mobile-link">Projects</a>
+  <a href="#certificates" class="mobile-link">Certificates</a>
+  <a href="#chat-section" class="mobile-link">AI Chat</a>
+  <a href="#feedback" class="mobile-link">Feedback</a>
+  <a href="#socials" class="mobile-link">Connect</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-content glass">
+    <span class="hero-badge">✦ Available for work</span>
+    <h1 class="name">Shiva Saini</h1>
+    <div class="typing-wrap">
+      <span class="typing"></span><span class="cursor"></span>
     </div>
-  </section>
-
-  <section class="highlights section" id="highlights">
-    <div class="highlight-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>💻</span><p>Frontend Development</p></div>
-      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>📂</span><p>10+ Projects Completed</p></div>
-      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>🏆</span><p>6+ Months of Experience</p></div>
-    </div>
-  </section>
-
-  <section class="about section">
-    <div class="glass">
-      <h2>About Me</h2>
-      <p>
-        I am a passionate developer focused on building modern web applications using MERN stack,
-        animations, and AI integrations. I love creating interactive and user-friendly experiences.
-      </p>
-    </div>
-  </section>
-
-  <section class="skills section">
-    <div class="glass">
-      <h2>Skills</h2>
-      <div class="skill-tags">
-        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span>
-        <span>Node.js</span><span>MongoDB</span><span>Firebase</span><span>GSAP</span>
-        <span>Three.js</span><span>Tailwind</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="projects section" id="projects">
-    <h2>My Projects</h2>
-    <div class="project-container">
-
-      <div class="project-card">
-        <img src="assets/duke.png" alt="Ai Teaching Assistant">
-        <div class="project-overlay">
-          <h3>Ai Teaching Assistant</h3>
-          <p>AI-powered educational tool</p>
-          <div class="project-buttons">
-            <a href="https://ai-teaching-assistants.vercel.app/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/shanuai.png" alt="Shanu Ai ChatBot">
-        <div class="project-overlay">
-          <h3>Shanu Ai (ChatBot)</h3>
-          <p>Smart conversational AI</p>
-          <div class="project-buttons">
-            <a href="https://shanu-ai-iota.vercel.app/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/Codeeditor.png" alt="Code Editor Ai">
-        <div class="project-overlay">
-          <h3>Code Editor Ai</h3>
-          <p>Real-time AI code assistant</p>
-          <div class="project-buttons">
-            <a href="https://code-editor-ai-taupe.vercel.app/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/Weather.png" alt="Weather Info">
-        <div class="project-overlay">
-          <h3>Weather Info</h3>
-          <p>Dynamic weather updates</p>
-          <div class="project-buttons">
-            <a href="https://shiva-sainiiii.github.io/Weather-Info/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/tictactoe.jpg" alt="Tic Tac Toe">
-        <div class="project-overlay">
-          <h3>Tic-Tac-Toe</h3>
-          <p>Classic game with smooth UI</p>
-          <div class="project-buttons">
-            <a href="https://shiva-sainiiii.github.io/Tic-Tac-Toe/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/citycafe.jpg" alt="Cafe">
-        <div class="project-overlay">
-          <h3>City Cafe</h3>
-          <p>Restaurant Menu Concept</p>
-          <div class="project-buttons">
-            <a href="https://restaurant-menu-ai.vercel.app/" target="_blank">Live</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="certificates section" id="certificates">
-    <div class="glass">
-      <h2>My Certificates</h2>
-      <div class="certificate-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-        <div class="certificate-card"><img src="assets/certificate1.jpg" alt="Cert 1" style="width:100%; border-radius:10px;"></div>
-        <div class="certificate-card"><img src="assets/certificate2.jpg" alt="Cert 2" style="width:100%; border-radius:10px;"></div>
-        <div class="certificate-card"><img src="assets/Certificate3.jpg" alt="Cert 3" style="width:100%; border-radius:10px;"></div>
-        <div class="certificate-card"><img src="assets/certificate4.jpg" alt="Cert 4" style="width:100%; border-radius:10px;"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="offerletters section" id="offerletters">
-    <div class="glass">
-      <h2>Offer Letters</h2>
-      <div class="offer-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; text-align: center;">
-        <div class="offer-card"><img src="assets/paytm.png" alt="Paytm" width="50"><p>Paytm</p><a href="assets/paytm.PDF" target="_blank" class="btn-small">View</a></div>
-        <div class="offer-card"><img src="assets/paisabazar.png" alt="Paisabazar" width="50"><p>Paisabazar</p><a href="assets/paisabazar.pdf" target="_blank" class="btn-small">View</a></div>
-        <div class="offer-card"><img src="assets/citymall.png" alt="CityMall" width="50"><p>CityMall</p><a href="assets/citymall.pdf" target="_blank" class="btn-small">View</a></div>
-        <div class="offer-card"><img src="assets/wishfin.png" alt="Wishfin" width="50"><p>Wishfin</p><a href="assets/wishfin.pdf" target="_blank" class="btn-small">View</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="ai-chat section">
-    <div class="glass">
-      <h2>Ask Me Anything 🤖</h2>
-      <div class="chat-box" id="chatBoxMain"></div>
-      <div class="chat-input">
-        <input type="text" id="userInputMain" placeholder="Ask something about me..." />
-        <button onclick="sendMessageMain()">Send</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="game section">
-    <div class="glass">
-      <h2>Snake Game 🐍</h2>
-      <p>Use arrow keys to play</p>
-      <canvas id="gameCanvas" width="300" height="300"></canvas>
-      <p id="score">Score: 0</p>
-      <button id="restartBtn">Restart</button>
-    </div>
-  </section>
-
-  <section class="feedback section">
-    <div class="glass">
-      <h2>Feedback</h2>
-      <form id="feedbackForm">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <textarea id="message" placeholder="Your Feedback" maxlength="200" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
-      <div class="feedback-display" style="margin-top: 20px;">
-        <h3>What others say:</h3>
-        <ul id="feedback-list"></ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="social-section section">
-    <div class="glass socials-list">
-      <h2>Connect with me</h2>
-      <div class="social-grid" style="display: grid; gap: 10px;">
-        <a href="https://www.instagram.com/shiva_sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
-          <span>Instagram (@shiva_sainiiii)</span> <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/shiva-sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
-          <span>LinkedIn</span> <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://github.com/Shiva-sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
-          <span>GitHub</span> <i class="fab fa-github"></i>
-        </a>
-        <a href="mailto:shivasaini.5666@gmail.com" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
-          <span>G-mail</span> <i class="fas fa-envelope"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div id="ai-toggle">🤖</div>
-
-  <div id="ai-chat-container" class="hidden">
-    <div class="chat-header">
-      <h3>AI Assistant</h3>
-      <span id="close-chat">✖</span>
-    </div>
-    <div id="chatBoxPopup" class="chat-box"></div>
-    <div class="chat-input">
-      <input type="text" id="userInputPopup" placeholder="Ask about me..." />
-      <button onclick="sendMessagePopup()">Send</button>
+    <p class="tagline">Full Stack Developer · AI Enthusiast</p>
+    <p class="hero-desc">A passionate Digital Creator & Developer, crafting modern and impactful digital experiences with cutting-edge tech.</p>
+    <div class="hero-buttons">
+      <a href="#projects" class="btn"><i class="fas fa-folder-open"></i> View Projects</a>
+      <a href="assets/resume.pdf" class="btn btn-outline" download><i class="fas fa-download"></i> Download CV</a>
     </div>
   </div>
+</section>
 
-  <footer class="footer" style="padding: 40px 0; text-align: center;">
-    <p>© 2025 Shiva Saini. All rights reserved.</p>
-  </footer>
+<!-- ═══ HIGHLIGHTS ═══ -->
+<section class="highlights section" id="highlights">
+  <div class="highlight-container">
+    <div class="highlight-card">
+      <span class="icon">💻</span>
+      <p>Frontend Development</p>
+    </div>
+    <div class="highlight-card">
+      <span class="icon">📂</span>
+      <p>10+ Projects Completed</p>
+    </div>
+    <div class="highlight-card">
+      <span class="icon">🏆</span>
+      <p>6+ Months Experience</p>
+    </div>
+  </div>
+</section>
 
-  <script src="firebase.js" type="module"></script>
-  <script src="script.js"></script>
+<!-- ═══ ABOUT ═══ -->
+<section class="about section" id="about">
+  <div class="glass">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-subtitle">Who I am & what drives me</p>
+    <div class="about-inner">
+      <div class="about-text">
+        <p>
+          I'm a passionate Full Stack Developer focused on building modern web applications
+          using the MERN stack, animations, and AI integrations. I love creating interactive
+          and user-friendly digital experiences that leave a lasting impression.
+        </p>
+        <br>
+        <p>
+          My journey combines clean code with beautiful design — turning ideas into
+          real, working products. Currently exploring AI-powered tools and next-gen web experiences.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-item">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Projects built & deployed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">6+</span>
+          <span class="stat-label">Months of real-world experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">4+</span>
+          <span class="stat-label">AI integrations shipped</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section class="skills section" id="skills">
+  <div class="glass">
+    <h2 class="section-title">Tech Stack</h2>
+    <p class="section-subtitle">Technologies I work with daily</p>
+    <div class="skill-tags">
+      <span>HTML5</span>
+      <span>CSS3</span>
+      <span>JavaScript</span>
+      <span>React</span>
+      <span>Node.js</span>
+      <span>MongoDB</span>
+      <span>Firebase</span>
+      <span>GSAP</span>
+      <span>Three.js</span>
+      <span>Tailwind CSS</span>
+      <span>Vercel</span>
+      <span>REST APIs</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section class="projects section" id="projects">
+  <h2 class="section-title">My Projects</h2>
+  <p class="section-subtitle">Things I've built & shipped</p>
+  <div class="project-container">
+
+    <div class="project-card">
+      <img src="assets/duke.png" alt="AI Teaching Assistant" loading="lazy">
+      <div class="project-overlay">
+        <h3>AI Teaching Assistant</h3>
+        <p>AI-powered educational tool</p>
+        <div class="project-buttons">
+          <a href="https://ai-teaching-assistants.vercel.app/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/shanuai.png" alt="Shanu AI ChatBot" loading="lazy">
+      <div class="project-overlay">
+        <h3>Shanu AI (ChatBot)</h3>
+        <p>Smart conversational AI</p>
+        <div class="project-buttons">
+          <a href="https://shanu-ai-iota.vercel.app/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/Codeeditor.png" alt="Code Editor AI" loading="lazy">
+      <div class="project-overlay">
+        <h3>Code Editor AI</h3>
+        <p>Real-time AI code assistant</p>
+        <div class="project-buttons">
+          <a href="https://code-editor-ai-taupe.vercel.app/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/Weather.png" alt="Weather Info" loading="lazy">
+      <div class="project-overlay">
+        <h3>Weather Info</h3>
+        <p>Dynamic weather updates</p>
+        <div class="project-buttons">
+          <a href="https://shiva-sainiiii.github.io/Weather-Info/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/tictactoe.jpg" alt="Tic Tac Toe" loading="lazy">
+      <div class="project-overlay">
+        <h3>Tic-Tac-Toe</h3>
+        <p>Classic game with smooth UI</p>
+        <div class="project-buttons">
+          <a href="https://shiva-sainiiii.github.io/Tic-Tac-Toe/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/citycafe.jpg" alt="City Cafe" loading="lazy">
+      <div class="project-overlay">
+        <h3>City Cafe</h3>
+        <p>Restaurant Menu Concept</p>
+        <div class="project-buttons">
+          <a href="https://restaurant-menu-ai.vercel.app/" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Live
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATES ═══ -->
+<section class="certificates section" id="certificates">
+  <div class="glass">
+    <h2 class="section-title">My Certificates</h2>
+    <p class="section-subtitle">Credentials & achievements</p>
+    <div class="cert-grid">
+      <div class="certificate-card">
+        <img src="assets/certificate1.jpg" alt="Certificate 1" loading="lazy">
+      </div>
+      <div class="certificate-card">
+        <img src="assets/certificate2.jpg" alt="Certificate 2" loading="lazy">
+      </div>
+      <div class="certificate-card">
+        <img src="assets/Certificate3.jpg" alt="Certificate 3" loading="lazy">
+      </div>
+      <div class="certificate-card">
+        <img src="assets/certificate4.jpg" alt="Certificate 4" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OFFER LETTERS ═══ -->
+<section class="offerletters section" id="offerletters">
+  <div class="glass">
+    <h2 class="section-title">Offer Letters</h2>
+    <p class="section-subtitle">Companies that trusted me</p>
+    <div class="offer-gallery">
+      <div class="offer-card">
+        <img src="assets/paytm.png" alt="Paytm" width="50" loading="lazy">
+        <p>Paytm</p>
+        <a href="assets/paytm.PDF" target="_blank" rel="noopener" class="btn-small">View</a>
+      </div>
+      <div class="offer-card">
+        <img src="assets/paisabazar.png" alt="Paisabazar" width="50" loading="lazy">
+        <p>Paisabazar</p>
+        <a href="assets/paisabazar.pdf" target="_blank" rel="noopener" class="btn-small">View</a>
+      </div>
+      <div class="offer-card">
+        <img src="assets/citymall.png" alt="CityMall" width="50" loading="lazy">
+        <p>CityMall</p>
+        <a href="assets/citymall.pdf" target="_blank" rel="noopener" class="btn-small">View</a>
+      </div>
+      <div class="offer-card">
+        <img src="assets/wishfin.png" alt="Wishfin" width="50" loading="lazy">
+        <p>Wishfin</p>
+        <a href="assets/wishfin.pdf" target="_blank" rel="noopener" class="btn-small">View</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AI CHAT SECTION ═══ -->
+<section class="ai-chat section" id="chat-section">
+  <div class="glass chat-section-inner">
+    <h2 class="section-title">Ask Me Anything 🤖</h2>
+    <p class="section-subtitle">Powered by AI — ask about my skills, projects, or background</p>
+    <div class="chat-box" id="chatBoxMain"></div>
+    <div class="chat-input">
+      <input
+        type="text"
+        id="userInputMain"
+        placeholder="Ask something about me..."
+        onkeydown="if(event.key==='Enter') sendMessageMain()"
+      />
+      <button onclick="sendMessageMain()">
+        <i class="fas fa-paper-plane"></i> Send
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SNAKE GAME ═══ -->
+<section class="game section" id="game">
+  <div class="glass">
+    <h2 class="section-title">Snake Game 🐍</h2>
+    <p class="section-subtitle">Use arrow keys — or tap buttons on mobile</p>
+    <div class="game-wrapper">
+      <canvas id="gameCanvas" width="300" height="300"></canvas>
+      <div class="game-info">
+        <p id="score">Score: 0</p>
+        <button id="restartBtn"><i class="fas fa-redo"></i> Restart</button>
+      </div>
+      <!-- Mobile touch controls -->
+      <div class="touch-controls" id="touchControls">
+        <div class="touch-row">
+          <button class="touch-btn" id="upBtn">▲</button>
+        </div>
+        <div class="touch-row">
+          <button class="touch-btn" id="leftBtn">◄</button>
+          <button class="touch-btn" id="downBtn">▼</button>
+          <button class="touch-btn" id="rightBtn">►</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEEDBACK ═══ -->
+<section class="feedback section" id="feedback">
+  <div class="glass feedback-inner">
+    <h2 class="section-title">Leave Feedback</h2>
+    <p class="section-subtitle">Your thoughts mean a lot to me</p>
+    <form id="feedbackForm">
+      <input type="text" id="name" placeholder="Your Name" required autocomplete="name" />
+      <textarea id="message" placeholder="Your Feedback" maxlength="200" required rows="4"></textarea>
+      <button type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
+    </form>
+    <div class="feedback-display">
+      <h3>What others say:</h3>
+      <ul id="feedback-list"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOCIALS ═══ -->
+<section class="social-section section" id="socials">
+  <div class="glass">
+    <h2 class="section-title">Connect with Me</h2>
+    <p class="section-subtitle">Let's build something great together</p>
+    <div class="social-grid">
+      <a href="https://www.instagram.com/shiva_sainiiii" target="_blank" rel="noopener" class="social-link">
+        <span><i class="fab fa-instagram" style="margin-right:10px; color:#e1306c;"></i>Instagram</span>
+        <span style="color:rgba(255,255,255,0.35); font-size:0.8rem;">@shiva_sainiiii <i class="fas fa-arrow-right" style="margin-left:6px;"></i></span>
+      </a>
+      <a href="https://www.linkedin.com/in/shiva-sainiiii" target="_blank" rel="noopener" class="social-link">
+        <span><i class="fab fa-linkedin" style="margin-right:10px; color:#0077b5;"></i>LinkedIn</span>
+        <span style="color:rgba(255,255,255,0.35); font-size:0.8rem;">shiva-sainiiii <i class="fas fa-arrow-right" style="margin-left:6px;"></i></span>
+      </a>
+      <a href="https://github.com/Shiva-sainiiii" target="_blank" rel="noopener" class="social-link">
+        <span><i class="fab fa-github" style="margin-right:10px;"></i>GitHub</span>
+        <span style="color:rgba(255,255,255,0.35); font-size:0.8rem;">Shiva-sainiiii <i class="fas fa-arrow-right" style="margin-left:6px;"></i></span>
+      </a>
+      <a href="mailto:shivasaini.5666@gmail.com" class="social-link">
+        <span><i class="fas fa-envelope" style="margin-right:10px; color:#ea4335;"></i>Gmail</span>
+        <span style="color:rgba(255,255,255,0.35); font-size:0.8rem;">shivasaini.5666@gmail.com <i class="fas fa-arrow-right" style="margin-left:6px;"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FLOATING AI BUTTON ═══ -->
+<div id="ai-toggle" title="Chat with AI">🤖</div>
+
+<!-- ═══ FLOATING CHAT POPUP ═══ -->
+<div id="ai-chat-container" class="hidden">
+  <div class="chat-header">
+    <h3>🤖 AI Assistant</h3>
+    <span id="close-chat">✖</span>
+  </div>
+  <div id="chatBoxPopup" class="chat-box"></div>
+  <div class="chat-input">
+    <input
+      type="text"
+      id="userInputPopup"
+      placeholder="Ask about me..."
+      onkeydown="if(event.key==='Enter') sendMessagePopup()"
+    />
+    <button onclick="sendMessagePopup()">Send</button>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <p>© 2025 <strong>Shiva Saini</strong>. Built with ❤️ using HTML, CSS & JS.</p>
+  <p style="margin-top:6px; font-size:0.78rem;">
+    <a href="https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-" target="_blank" rel="noopener">View Source on GitHub</a>
+  </p>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="firebase.js" type="module"></script>
+<script src="script.js"></script>
+
+<script>
+  // ─── SCROLL PROGRESS ───
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = (window.scrollY / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('scroll-progress').style.width = scrolled + '%';
+  });
+
+  // ─── NAVBAR SCROLL STYLE ───
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ─── HAMBURGER MENU ───
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+
+  // Close mobile nav on link click
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+    });
+  });
+
+  // ─── SMOOTH SCROLL ───
+  document.querySelectorAll("a[href^='#']").forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+
+  // ─── TOAST HELPER ───
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ─── CHAT HELPER ───
+  function appendMsg(boxId, role, text) {
+    const box = document.getElementById(boxId);
+    const p = document.createElement('p');
+    p.className = 'chat-msg ' + role;
+    p.textContent = (role === 'user' ? 'You: ' : 'Shiva AI: ') + text;
+    box.appendChild(p);
+    box.scrollTop = box.scrollHeight;
+    return p;
+  }
+
+  async function sendChat(boxId, inputId) {
+    const input = document.getElementById(inputId);
+    const message = input.value.trim();
+    if (!message) return;
+
+    input.value = '';
+    appendMsg(boxId, 'user', message);
+
+    const typingEl = appendMsg(boxId, 'typing-dot', 'typing…');
+
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      typingEl.remove();
+      appendMsg(boxId, 'ai', data.reply || "Sorry, I couldn't respond to that.");
+
+      if (window.saveChat) window.saveChat(message, data.reply);
+    } catch {
+      typingEl.remove();
+      appendMsg(boxId, 'ai', "Connection error. Please try again.");
+    }
+  }
+
+  // ─── EXPOSED CHAT FUNCTIONS ───
+  function sendMessageMain()  { sendChat('chatBoxMain',  'userInputMain'); }
+  function sendMessagePopup() { sendChat('chatBoxPopup', 'userInputPopup'); }
+
+  // ─── FLOATING CHAT TOGGLE ───
+  const toggleBtn = document.getElementById("ai-toggle");
+  const chatContainer = document.getElementById("ai-chat-container");
+  const closeBtn = document.getElementById("close-chat");
+
+  toggleBtn.addEventListener("click", () => {
+    chatContainer.classList.toggle("active");
+    chatContainer.classList.remove("hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    chatContainer.classList.remove("active");
+  });
+
+  // ─── FEEDBACK FORM ───
+  document.getElementById("feedbackForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!name || !message) return;
+
+    if (window.saveFeedback) window.saveFeedback(name, message);
+
+    // Add to UI immediately
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${name}</strong>${message}`;
+    document.getElementById("feedback-list").prepend(li);
+
+    document.getElementById("feedbackForm").reset();
+    showToast("Thanks for your feedback! 🎉");
+  });
+
+  // ─── ACTIVE NAV LINK ───
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-links a");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+    });
+  });
+</script>
+
+<noscript>
+  <style>.section { opacity: 1 !important; transform: none !important; }</style>
+  <p style="text-align:center;padding:20px;color:#aaa;">Please enable JavaScript for the full experience.</p>
+</noscript>
 
 </body>
-  </html>
-            
-          
+</html>
