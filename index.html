@@ -5,12 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shiva Saini | Portfolio</title>
 
+  <meta name="description" content="Portfolio of Shiva Saini - Developer & Digital Creator">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
   <link rel="stylesheet" href="style.css" />
 
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
 
 </head>
 <body>
@@ -22,7 +29,19 @@
       <h1 class="name">Shiva Saini</h1>
       <h2 class="typing"></h2>
       <p class="tagline">Full Stack Developer | AI Enthusiast</p>
-      <a href="assets/resume.pdf" class="btn" download>Download Resume</a>
+      <p>A passionate Digital Creator & Developer, crafting modern and impactful digital experiences.</p>
+      <div class="hero-buttons" style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+        <a href="#projects" class="btn">View Projects</a>
+        <a href="assets/resume.pdf" class="btn btn-outline" download>Download CV</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="highlights section" id="highlights">
+    <div class="highlight-container" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>💻</span><p>Frontend Development</p></div>
+      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>📂</span><p>10+ Projects Completed</p></div>
+      <div class="glass card" style="padding: 20px; text-align: center; min-width: 150px;"><span>🏆</span><p>6+ Months of Experience</p></div>
     </div>
   </section>
 
@@ -40,171 +59,187 @@
     <div class="glass">
       <h2>Skills</h2>
       <div class="skill-tags">
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>React</span>
-        <span>Node.js</span>
-        <span>MongoDB</span>
-        <span>Firebase</span>
-        <span>GSAP</span>
+        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span>
+        <span>Node.js</span><span>MongoDB</span><span>Firebase</span><span>GSAP</span>
+        <span>Three.js</span><span>Tailwind</span>
       </div>
     </div>
   </section>
 
-  <section class="projects section">
-  <h2> My Projects</h2>
+  <section class="projects section" id="projects">
+    <h2>My Projects</h2>
+    <div class="project-container">
 
-  <div class="project-container">
-
-    <div class="project-card">
-      <img src="assets/project1.jpg" alt="Project 1">
-
-      <div class="project-overlay">
-        <h3>AI Chat App</h3>
-        <p>AI-powered chatbot using OpenRouter & Firebase</p>
-
-        <div class="tech">
-          <span>JS</span>
-          <span>Firebase</span>
-          <span>API</span>
-        </div>
-
-        <div class="project-buttons">
-          <a href="#" target="_blank">Live</a>
-          <a href="#" target="_blank">Code</a>
+      <div class="project-card">
+        <img src="duke.png" alt="Ai Teaching Assistant">
+        <div class="project-overlay">
+          <h3>Ai Teaching Assistant</h3>
+          <p>AI-powered educational tool</p>
+          <div class="project-buttons">
+            <a href="https://ai-teaching-assistants.vercel.app/" target="_blank">Live</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="project-card">
-      <img src="assets/project2.jpg" alt="Project 2">
-
-      <div class="project-overlay">
-        <h3>MERN App</h3>
-        <p>Full stack CRUD application</p>
-
-        <div class="tech">
-          <span>React</span>
-          <span>Node</span>
-          <span>MongoDB</span>
-        </div>
-
-        <div class="project-buttons">
-          <a href="#">Live</a>
-          <a href="#">Code</a>
+      <div class="project-card">
+        <img src="shanuai.png" alt="Shanu Ai ChatBot">
+        <div class="project-overlay">
+          <h3>Shanu Ai (ChatBot)</h3>
+          <p>Smart conversational AI</p>
+          <div class="project-buttons">
+            <a href="https://shanu-ai-iota.vercel.app/" target="_blank">Live</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="project-card">
-      <img src="assets/project3.jpg" alt="Project 3">
-
-      <div class="project-overlay">
-        <h3>Portfolio Website</h3>
-        <p>Animated modern UI with GSAP</p>
-
-        <div class="tech">
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>GSAP</span>
-        </div>
-
-        <div class="project-buttons">
-          <a href="#">Live</a>
-          <a href="#">Code</a>
+      <div class="project-card">
+        <img src="Codeeditor.png" alt="Code Editor Ai">
+        <div class="project-overlay">
+          <h3>Code Editor Ai</h3>
+          <p>Real-time AI code assistant</p>
+          <div class="project-buttons">
+            <a href="https://code-editor-ai-taupe.vercel.app/" target="_blank">Live</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="project-card">
-      <img src="assets/project4.jpg" alt="Project 4">
-
-      <div class="project-overlay">
-        <h3>Game Project</h3>
-        <p>Interactive JS game</p>
-
-        <div class="tech">
-          <span>JS</span>
-          <span>UI</span>
-          <span>Game</span>
-        </div>
-
-        <div class="project-buttons">
-          <a href="#">Live</a>
-          <a href="#">Code</a>
+      <div class="project-card">
+        <img src="Weather.png" alt="Weather Info">
+        <div class="project-overlay">
+          <h3>Weather Info</h3>
+          <p>Dynamic weather updates</p>
+          <div class="project-buttons">
+            <a href="https://shiva-sainiiii.github.io/Weather-Info/" target="_blank">Live</a>
+          </div>
         </div>
       </div>
-    </div>
 
-  </div>
-</section>
+      <div class="project-card">
+        <img src="tictactoe.jpg" alt="Tic Tac Toe">
+        <div class="project-overlay">
+          <h3>Tic-Tac-Toe</h3>
+          <p>Classic game with smooth UI</p>
+          <div class="project-buttons">
+            <a href="https://shiva-sainiiii.github.io/Tic-Tac-Toe/" target="_blank">Live</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <img src="citycafe.jpg" alt="Cafe">
+        <div class="project-overlay">
+          <h3>City Cafe</h3>
+          <p>Restaurant Menu Concept</p>
+          <div class="project-buttons">
+            <a href="https://restaurant-menu-ai.vercel.app/" target="_blank">Live</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="certificates section" id="certificates">
+    <div class="glass">
+      <h2>My Certificates</h2>
+      <div class="certificate-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+        <div class="certificate-card"><img src="certificate1.jpg" alt="Cert 1" style="width:100%; border-radius:10px;"></div>
+        <div class="certificate-card"><img src="certificate2.jpg" alt="Cert 2" style="width:100%; border-radius:10px;"></div>
+        <div class="certificate-card"><img src="Certificate3.jpg" alt="Cert 3" style="width:100%; border-radius:10px;"></div>
+        <div class="certificate-card"><img src="certificate4.jpg" alt="Cert 4" style="width:100%; border-radius:10px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="offerletters section" id="offerletters">
+    <div class="glass">
+      <h2>Offer Letters</h2>
+      <div class="offer-gallery" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; text-align: center;">
+        <div class="offer-card"><img src="paytm.png" alt="Paytm" width="50"><p>Paytm</p><a href="paytm.PDF" target="_blank" class="btn-small">View</a></div>
+        <div class="offer-card"><img src="paisabazar.png" alt="Paisabazar" width="50"><p>Paisabazar</p><a href="paisabazar.pdf" target="_blank" class="btn-small">View</a></div>
+        <div class="offer-card"><img src="citymall.png" alt="CityMall" width="50"><p>CityMall</p><a href="citymall.pdf" target="_blank" class="btn-small">View</a></div>
+        <div class="offer-card"><img src="wishfin.png" alt="Wishfin" width="50"><p>Wishfin</p><a href="wishfin.pdf" target="_blank" class="btn-small">View</a></div>
+      </div>
+    </div>
+  </section>
 
   <section class="ai-chat section">
     <div class="glass">
       <h2>Ask Me Anything 🤖</h2>
-
-      <div class="chat-box" id="chatBox"></div>
-
+      <div class="chat-box" id="chatBoxMain"></div>
       <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Ask something about me..." />
-        <button onclick="sendMessage()">Send</button>
+        <input type="text" id="userInputMain" placeholder="Ask something about me..." />
+        <button onclick="sendMessageMain()">Send</button>
       </div>
-
     </div>
   </section>
 
   <section class="game section">
-  <div class="glass">
-    <h2>Snake Game 🐍</h2>
-    <p>Use arrow keys to play</p>
-
-    <canvas id="gameCanvas" width="300" height="300"></canvas>
-
-    <p id="score">Score: 0</p>
-    <button id="restartBtn">Restart</button>
-  </div>
-</section>
+    <div class="glass">
+      <h2>Snake Game 🐍</h2>
+      <p>Use arrow keys to play</p>
+      <canvas id="gameCanvas" width="300" height="300"></canvas>
+      <p id="score">Score: 0</p>
+      <button id="restartBtn">Restart</button>
+    </div>
+  </section>
 
   <section class="feedback section">
     <div class="glass">
       <h2>Feedback</h2>
       <form id="feedbackForm">
         <input type="text" id="name" placeholder="Your Name" required />
-        <textarea id="message" placeholder="Your Feedback" required></textarea>
+        <textarea id="message" placeholder="Your Feedback" maxlength="200" required></textarea>
         <button type="submit">Submit</button>
       </form>
+      <div class="feedback-display" style="margin-top: 20px;">
+        <h3>What others say:</h3>
+        <ul id="feedback-list"></ul>
+      </div>
     </div>
   </section>
-<div id="ai-toggle">🤖</div>
 
-<div id="ai-chat-container" class="hidden">
-
-  <div class="chat-header">
-    <h3>AI Assistant</h3>
-    <span id="close-chat">✖</span>
-  </div>
-
-  <div id="chatBox" class="chat-box"></div>
-
-  <div class="chat-input">
-    <input type="text" id="userInput" placeholder="Ask about me..." />
-    <button onclick="sendMessage()">Send</button>
-  </div>
-
-</div>
-  <footer class="footer">
-    <p>Connect with me</p>
-    <div class="socials">
-      <a href="#">GitHub</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Instagram</a>
+  <section class="social-section section">
+    <div class="glass socials-list">
+      <h2>Connect with me</h2>
+      <div class="social-grid" style="display: grid; gap: 10px;">
+        <a href="https://www.instagram.com/shiva_sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
+          <span>Instagram (@shiva_sainiiii)</span> <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/shiva-sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
+          <span>LinkedIn</span> <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://github.com/Shiva-sainiiii" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
+          <span>GitHub</span> <i class="fab fa-github"></i>
+        </a>
+        <a href="mailto:shivasaini.5666@gmail.com" class="glass" style="display: flex; justify-content: space-between; padding: 15px; text-decoration: none; color: white;">
+          <span>G-mail</span> <i class="fas fa-envelope"></i>
+        </a>
+      </div>
     </div>
+  </section>
+
+  <div id="ai-toggle">🤖</div>
+
+  <div id="ai-chat-container" class="hidden">
+    <div class="chat-header">
+      <h3>AI Assistant</h3>
+      <span id="close-chat">✖</span>
+    </div>
+    <div id="chatBoxPopup" class="chat-box"></div>
+    <div class="chat-input">
+      <input type="text" id="userInputPopup" placeholder="Ask about me..." />
+      <button onclick="sendMessagePopup()">Send</button>
+    </div>
+  </div>
+
+  <footer class="footer" style="padding: 40px 0; text-align: center;">
+    <p>© 2025 Shiva Saini. All rights reserved.</p>
   </footer>
 
   <script src="firebase.js" type="module"></script>
   <script src="script.js"></script>
 
 </body>
-  </html>
-  
+          </html>
+          
