@@ -49,7 +49,7 @@ Rules:
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openrouter/auto", // free model auto चयन
+        model: "nvidia/nemotron-3-super-120b-a12b:free", // free model auto चयन
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: message }
