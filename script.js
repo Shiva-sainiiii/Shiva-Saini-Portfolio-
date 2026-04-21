@@ -251,6 +251,8 @@ function showToast(msg, duration = 3000) {
 }
 
 
+    
+
 /* ─────────────────────────────────────────
    8. AI CHAT — SHARED CORE
 ───────────────────────────────────────── */
@@ -354,6 +356,7 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
     }
   });
 })();
+
 
 
 /* ─────────────────────────────────────────
