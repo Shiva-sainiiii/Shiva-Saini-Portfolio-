@@ -281,7 +281,25 @@
       </div>
     </div>
   </section>
-
+<!-- ═══ AI CHAT SECTION ═══ -->
+<section class="ai-chat section" id="chat-section">
+  <div class="glass chat-section-inner">
+    <h2 class="section-title">Ask Me Anything 🤖</h2>
+    <p class="section-subtitle">Powered by AI — ask about my skills, projects, or background</p>
+    <div class="chat-box" id="chatBoxMain"></div>
+    <div class="chat-input">
+      <input
+        type="text"
+        id="userInputMain"
+        placeholder="Ask something about me..."
+        onkeydown="if(event.key==='Enter') sendMessageMain()"
+      />
+      <button onclick="sendMessageMain()">
+        <i class="fas fa-paper-plane"></i> Send
+      </button>
+    </div>
+  </div>
+</section>
   <!-- ░░ SNAKE GAME ░░ -->
   <section class="game section" id="game">
     <div class="glass">
