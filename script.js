@@ -94,11 +94,11 @@ window.addEventListener("load", () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Fade-in sections on scroll
+  // Fade-in sections on scroll — use from() so sections are visible by default
   gsap.utils.toArray(".section").forEach(section => {
-    gsap.to(section, {
-      opacity: 1,
-      y: 0,
+    gsap.from(section, {
+      opacity: 0,
+      y: 40,
       duration: 0.9,
       ease: "power2.out",
       scrollTrigger: {
@@ -317,8 +317,7 @@ async function sendChat(boxId, inputId) {
   }
 }
 
-// ─── EXPOSED GLOBALS (called from HTML onclick) ───
-function sendMessageMain()  { sendChat("chatBoxMain",  "userInputMain"); }
+// ─── EXPOSED GLOBAL (called from popup HTML onclick) ───
 function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
 
 
@@ -366,17 +365,16 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
 
   const ctx   = canvas.getContext("2d");
   const BOX   = 15;
-  const COLS  = Math.floor(canvas.width  / BOX);  // 20
-  const ROWS  = Math.floor(canvas.height / BOX);  // 20
+  const COLS  = Math.floor(canvas.width  / BOX);
+  const ROWS  = Math.floor(canvas.height / BOX);
 
-  let snake, dir, nextDir, food, score, highScore, gameLoop, isRunning;
+  let snake, dir, nextDir, food, score, highScore, gameLoop;
+  // States: "idle" | "running" | "over"
+  let state = "idle";
 
-  // Load high score from localStorage (safe fallback)
   try {
     highScore = parseInt(localStorage.getItem("snakeHS") || "0");
-  } catch {
-    highScore = 0;
-  }
+  } catch { highScore = 0; }
 
   function updateScoreUI() {
     const scoreEl = document.getElementById("score");
@@ -396,26 +394,11 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
     return pos;
   }
 
-  function initGame() {
-    snake     = [{ x: Math.floor(COLS / 2) * BOX, y: Math.floor(ROWS / 2) * BOX }];
-    dir       = "RIGHT";
-    nextDir   = "RIGHT";
-    food      = randomFood();
-    score     = 0;
-    isRunning = true;
-    updateScoreUI();
-
-    clearInterval(gameLoop);
-    gameLoop = setInterval(draw, 110);
-  }
-
-  function draw() {
-    // Background
+  // ─── DRAW BACKGROUND + GRID ───
+  function drawBg() {
     ctx.fillStyle = "#08080f";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Grid (subtle)
-    ctx.strokeStyle = "rgba(255,255,255,0.02)";
+    ctx.strokeStyle = "rgba(255,255,255,0.025)";
     ctx.lineWidth   = 0.5;
     for (let x = 0; x <= canvas.width; x += BOX) {
       ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -423,30 +406,70 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
     for (let y = 0; y <= canvas.height; y += BOX) {
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
     }
+  }
 
-    // Apply buffered direction
+  // ─── START SCREEN (shown on load, not game-over) ───
+  function drawStartScreen() {
+    drawBg();
+    ctx.textAlign = "center";
+
+    // Icon
+    ctx.font      = "40px serif";
+    ctx.fillText("🐍", canvas.width / 2, canvas.height / 2 - 44);
+
+    ctx.fillStyle = "#00d4ff";
+    ctx.font      = "bold 20px 'Syne', sans-serif";
+    ctx.fillText("SNAKE", canvas.width / 2, canvas.height / 2 - 8);
+
+    ctx.fillStyle = "rgba(255,255,255,0.55)";
+    ctx.font      = "13px 'Space Grotesk', sans-serif";
+    ctx.fillText("Press Start or Space to play", canvas.width / 2, canvas.height / 2 + 18);
+
+    if (highScore > 0) {
+      ctx.fillStyle = "rgba(255, 215, 0, 0.6)";
+      ctx.font      = "12px 'Space Grotesk', sans-serif";
+      ctx.fillText("Best: " + highScore, canvas.width / 2, canvas.height / 2 + 40);
+    }
+  }
+
+  // ─── START GAME ───
+  function startGame() {
+    snake   = [{ x: Math.floor(COLS / 2) * BOX, y: Math.floor(ROWS / 2) * BOX }];
+    dir     = "RIGHT";
+    nextDir = "RIGHT";
+    food    = randomFood();
+    score   = 0;
+    state   = "running";
+    updateScoreUI();
+    clearInterval(gameLoop);
+    gameLoop = setInterval(tick, 110);
+  }
+
+  // ─── MAIN TICK ───
+  function tick() {
+    if (state !== "running") return;
+
+    drawBg();
     dir = nextDir;
 
-    // Move head
     const head = { ...snake[0] };
     if (dir === "UP")    head.y -= BOX;
     if (dir === "DOWN")  head.y += BOX;
     if (dir === "LEFT")  head.x -= BOX;
     if (dir === "RIGHT") head.x += BOX;
 
-    // Game over: wall or self
+    // Collision check
     if (
       head.x < 0 || head.y < 0 ||
       head.x >= canvas.width || head.y >= canvas.height ||
       snake.some(s => s.x === head.x && s.y === head.y)
     ) {
       clearInterval(gameLoop);
-      isRunning = false;
-      drawGameOver();
+      state = "over";
+      drawGameOverScreen();
       return;
     }
 
-    // Eat food
     if (head.x === food.x && head.y === food.y) {
       score++;
       if (score > highScore) {
@@ -461,7 +484,7 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
 
     snake.unshift(head);
 
-    // Draw food (glowing dot)
+    // Draw food
     ctx.shadowBlur  = 14;
     ctx.shadowColor = "#ff4d8d";
     ctx.fillStyle   = "#ff4d8d";
@@ -472,7 +495,7 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
 
     // Draw snake
     snake.forEach((seg, i) => {
-      const ratio = i / snake.length;
+      const ratio   = i / snake.length;
       ctx.fillStyle = i === 0
         ? "#00d4ff"
         : `hsl(${270 + ratio * 60}, 80%, ${65 - ratio * 20}%)`;
@@ -485,38 +508,48 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
     ctx.shadowBlur = 0;
   }
 
-  function drawGameOver() {
-    ctx.fillStyle = "rgba(0,0,0,0.6)";
+  // ─── GAME OVER SCREEN (on canvas, no popup/toast) ───
+  function drawGameOverScreen() {
+    // Dim overlay
+    ctx.fillStyle = "rgba(0,0,0,0.65)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.textAlign    = "center";
-    ctx.fillStyle    = "#ff4d8d";
-    ctx.font         = "bold 22px 'Syne', sans-serif";
-    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 22);
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#ff4d8d";
+    ctx.font      = "bold 22px 'Syne', sans-serif";
+    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 28);
 
-    ctx.fillStyle    = "#fff";
-    ctx.font         = "16px 'Space Grotesk', sans-serif";
-    ctx.fillText("Score: " + score, canvas.width / 2, canvas.height / 2 + 10);
+    ctx.fillStyle = "#fff";
+    ctx.font      = "16px 'Space Grotesk', sans-serif";
+    ctx.fillText("Score: " + score, canvas.width / 2, canvas.height / 2 + 2);
 
-    ctx.fillStyle    = "rgba(255,255,255,0.45)";
-    ctx.font         = "13px 'Space Grotesk', sans-serif";
-    ctx.fillText("Press Restart to play again", canvas.width / 2, canvas.height / 2 + 36);
+    if (score === highScore && score > 0) {
+      ctx.fillStyle = "rgba(255, 215, 0, 0.85)";
+      ctx.font      = "12px 'Space Grotesk', sans-serif";
+      ctx.fillText("🏆 New Best!", canvas.width / 2, canvas.height / 2 + 22);
+    }
 
-    showToast("Game Over 🐍 Score: " + score);
+    ctx.fillStyle = "rgba(255,255,255,0.4)";
+    ctx.font      = "12px 'Space Grotesk', sans-serif";
+    ctx.fillText("Click Restart to play again", canvas.width / 2, canvas.height / 2 + 44);
   }
 
   // ─── KEYBOARD CONTROLS ───
   const opposite = { UP: "DOWN", DOWN: "UP", LEFT: "RIGHT", RIGHT: "LEFT" };
   const keyMap   = {
     ArrowUp: "UP", ArrowDown: "DOWN", ArrowLeft: "LEFT", ArrowRight: "RIGHT",
-    w: "UP", s: "DOWN", a: "LEFT", d: "RIGHT"   // WASD support
+    w: "UP", s: "DOWN", a: "LEFT", d: "RIGHT"
   };
 
   document.addEventListener("keydown", e => {
+    // Space starts game from idle
+    if (e.key === " " && state === "idle") {
+      startGame();
+      return;
+    }
     const newDir = keyMap[e.key];
-    if (newDir && newDir !== opposite[dir]) {
+    if (newDir && newDir !== opposite[dir] && state === "running") {
       nextDir = newDir;
-      // Prevent page scroll on arrow keys
       if (e.key.startsWith("Arrow")) e.preventDefault();
     }
   });
@@ -532,17 +565,22 @@ function sendMessagePopup() { sendChat("chatBoxPopup", "userInputPopup"); }
     ["touchstart", "mousedown"].forEach(evt => {
       btn.addEventListener(evt, e => {
         e.preventDefault();
-        if (newDir !== opposite[dir]) nextDir = newDir;
+        if (state === "running" && newDir !== opposite[dir]) nextDir = newDir;
       }, { passive: false });
     });
   });
 
   // ─── RESTART BUTTON ───
   const restartBtn = document.getElementById("restartBtn");
-  if (restartBtn) restartBtn.addEventListener("click", initGame);
+  if (restartBtn) restartBtn.addEventListener("click", startGame);
 
-  // Start
-  initGame();
+  // ─── CLICK CANVAS TO START (idle state) ───
+  canvas.addEventListener("click", () => {
+    if (state === "idle") startGame();
+  });
+
+  // ─── SHOW START SCREEN (no auto-start) ───
+  drawStartScreen();
 })();
 
 

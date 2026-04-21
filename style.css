@@ -109,8 +109,7 @@ img {
 .section {
   padding: 90px 8%;
   text-align: center;
-  opacity: 0;
-  transform: translateY(40px);
+  /* opacity/transform handled by GSAP via gsap.from() — no hidden default */
 }
 
 .section-title {
@@ -795,6 +794,7 @@ nav.scrolled {
   border: 1px solid rgba(138, 43, 226, 0.3);
   box-shadow: 0 0 36px rgba(138, 43, 226, 0.25);
   max-width: 100%;
+  cursor: pointer;
 }
 
 .game-meta {
