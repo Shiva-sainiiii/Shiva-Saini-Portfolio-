@@ -646,7 +646,6 @@ window.renderFeedback = function(items) {
   });
 };
 
-
 /* ─────────────────────────────────────────
    UTILITY: HTML ESCAPE
 ───────────────────────────────────────── */
@@ -654,3 +653,6 @@ function escapeHTML(str) {
   const map = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" };
   return String(str).replace(/[&<>"']/g, m => map[m]);
 }
+
+// <--- ERROR: This brace is extra and must be removed.
+
