@@ -1,144 +1,154 @@
-# Shiva Saini — Portfolio
+<div align="center">
 
-A modern, responsive portfolio website for **Shiva Saini**, showcasing projects, skills, certificates, offer letters, a built-in Snake game, and AI-powered interactions.
+# ✦ Shiva Saini — Portfolio
 
-[Live Portfolio](https://shivasainiportfolio.vercel.app/) • [Repository](https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-)
+**A modern, AI-powered developer portfolio built with glassmorphism, particles, and real-time features.**
 
----
+[![Live Site](https://img.shields.io/badge/🌐_Live_Site-shivasainiportfolio.vercel.app-8a2be2?style=for-the-badge&logo=vercel&logoColor=white)](https://shivasainiportfolio.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Shiva--sainiiii-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-)
+[![Deployed on](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
 
-## Overview
-
-This repository contains a polished personal portfolio built around a clean single-page experience. The site presents a developer profile, technical skills, featured projects, certifications, offer letters, a feedback system, and a playable Snake game. It also includes an AI chat flow powered through a Vercel serverless API route.
-
-The deployed site is branded as **“Shiva Saini | Portfolio”** and highlights **Full Stack Developer · AI Enthusiast** as the core identity. The current repository structure includes `index.html`, `style.css`, `script.js`, `firebase.js`, an `api/` folder with `ask.js`, and an `assets/` directory for project and certificate media. citeturn929471view1turn929471view0
+</div>
 
 ---
 
-## Key Highlights
+## 📸 Preview
 
-- Clean hero section with personal branding and call-to-action buttons
-- About section with short introduction and career snapshot
-- Tech stack showcase
-- Project gallery with live demo links
-- Certificates section
-- Offer letters section
-- Snake game with desktop and mobile controls
-- Feedback form and feedback list
-- AI chat integration through `/api/ask`
-- Glassmorphism-style UI and smooth animations
-
-The live site shows sections for **About, Skills, Projects, Certs, Feedback, and Connect**, along with a built-in **Snake Game**. The skills listed on the site include **HTML5, CSS3, JavaScript, React, Node.js, MongoDB, Firebase, GSAP, Three.js, Tailwind CSS, Vercel, and REST APIs**. citeturn929471view1turn451939view1turn830757view2turn830757view3
+> Live at → **[shivasainiportfolio.vercel.app](https://shivasainiportfolio.vercel.app/)**
 
 ---
 
-## Featured Content
+## ✨ Features
 
-### Projects
-The portfolio showcases multiple deployed projects, including:
-
-- AI Teaching Assistant
-- Shanu AI (ChatBot)
-- Code Editor AI
-- Weather Info
-- Tic-Tac-Toe
-- City Cafe
-
-Each project card includes a screenshot and a live link on the deployed site. citeturn929471view1turn451939view2
-
-### AI Experience
-The codebase includes a chat flow that sends messages to `/api/ask`, which makes the portfolio feel more interactive and modern. citeturn451939view4
-
-### Feedback System
-The site includes a feedback form and a feedback display area, indicating that user feedback is stored and rendered through Firebase/Firestore integration. citeturn451939view3turn830757view6
-
-### Snake Game
-The built-in Snake Game supports keyboard play on desktop and touch controls on mobile, with score and best-score tracking. citeturn830757view3turn830757view4
+| Feature | Description |
+|---|---|
+| 🤖 **AI Chat** | Ask anything — powered by OpenRouter API via a Vercel serverless function |
+| 🎨 **Glassmorphism UI** | Frosted glass cards, backdrop blur, and layered depth |
+| ✦ **Particles.js** | Interactive animated particle background |
+| 📱 **Fully Responsive** | Mobile-first layout with custom touch controls |
+| 🐍 **Snake Game** | Playable mini-game built into the portfolio |
+| 💬 **Live Feedback** | Real-time visitor messages stored in Firebase Firestore |
+| 🎯 **Smooth Animations** | GSAP-powered scroll reveals and micro-interactions |
+| 📊 **Scroll Progress Bar** | Gradient progress indicator at the top of the page |
+| 🌙 **Dark Theme** | Deep space aesthetic with purple & cyan accents |
+| ⚡ **Fast & Optimized** | Lightweight, lazy-loaded, deployed on Vercel's edge network |
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-**Frontend:** HTML5, CSS3, JavaScript  
-**UI / Animation:** GSAP, Three.js, glassmorphism styling  
-**Backend / Services:** Firebase, Vercel Serverless Functions  
-**Other tools and ecosystem:** React, Node.js, MongoDB, Tailwind CSS, REST APIs
-
-These technologies are visible from the live site and repository content. The current codebase appears to be primarily implemented with HTML/CSS/JavaScript, while the site also presents the broader stack used in your development work. citeturn451939view1turn830757view2turn451939view5turn929471view0
-
----
-
-## Project Structure
-
-```bash
-project-root/
-├── index.html
-├── style.css
-├── script.js
-├── firebase.js
-├── api/
-│   └── ask.js
-└── assets/
-    ├── project1.jpg
-    ├── project2.jpg
-    ├── project3.jpg
-    └── project4.jpg
+```
+Frontend        →  HTML5, CSS3 (Custom Properties), Vanilla JavaScript
+Animations      →  GSAP, Particles.js
+Database        →  Firebase Firestore (real-time feedback)
+AI Chat         →  OpenRouter API (serverless via Vercel)
+Deployment      →  Vercel (GitHub CI/CD)
 ```
 
-This matches the repository structure shown on GitHub. citeturn929471view0turn765603view0
+---
+
+## 📁 Project Structure
+
+```
+shiva-saini-portfolio/
+│
+├── index.html          # Main UI — all sections in one page
+├── style.css           # Design system — variables, components, responsive
+├── script.js           # Core logic — animations, game, nav, UI interactions
+├── firebase.js         # Firestore integration — real-time feedback system
+│
+├── api/
+│   └── ask.js          # Vercel serverless function — AI chat proxy
+│
+└── assets/             # Images, PDFs, icons, certificates
+```
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-### 1) Clone the repository
+### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-.git
 cd Shiva-Saini-Portfolio-
 ```
 
-### 2) Open locally
-Open `index.html` in your browser, or use a local server for the best experience.
+### 2. Set Up Environment Variables
 
-### 3) Configure Firebase
-Update `firebase.js` with your Firebase project settings before enabling feedback or other Firestore-powered features.
+Create a `.env` file in the root (or configure in Vercel dashboard):
 
-### 4) Configure the AI API
-The portfolio expects a Vercel serverless endpoint at `/api/ask`. Make sure the `api/ask.js` function is deployed and connected to your chosen AI provider.
+```env
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
 
-### 5) Deploy
-Deploy the project on Vercel or another static hosting platform that supports serverless functions.
+> **Note:** Firebase config is handled client-side inside `firebase.js`. Replace the config object with your own Firebase project credentials.
 
----
+### 3. Run Locally
 
-## Improvements You Can Add Next
+Since this is a static site, you can use any local server:
 
-- Add a dedicated `README` screenshots section
-- Include each project’s tech stack under its card
-- Add a testimonial section
-- Add a dark/light theme toggle
-- Add analytics for portfolio visits and button clicks
-- Add a downloadable resume section with file size and update date
+```bash
+# Using VS Code Live Server extension (recommended)
+# Or using Python
+python -m http.server 3000
 
----
+# Or using Node.js
+npx serve .
+```
 
-## GitHub Stats
+Open `http://localhost:3000` in your browser.
 
-- Public repository
-- 69 commits
-- No releases published yet
-- No forks yet
+### 4. Deploy to Vercel
 
-These repository details are visible on the GitHub page. citeturn929471view0
+```bash
+# Install Vercel CLI
+npm install -g vercel
 
----
+# Deploy
+vercel --prod
+```
 
-## Contact
-
-- **Portfolio:** [shivasainiportfolio.vercel.app](https://shivasainiportfolio.vercel.app/)
-- **GitHub:** [Shiva-sainiiii](https://github.com/Shiva-sainiiii)
+Or connect your GitHub repo to [vercel.com](https://vercel.com) for automatic deployments on every push.
 
 ---
 
-## License
+## 🔑 Environment Variables (Vercel)
 
-No license file is currently shown in the repository. If you want your work to be reusable, add a license file such as MIT or Apache 2.0.
+| Variable | Description |
+|---|---|
+| `OPENROUTER_API_KEY` | API key from [openrouter.ai](https://openrouter.ai) for AI chat |
+
+Set these in: **Vercel Dashboard → Project → Settings → Environment Variables**
+
+---
+
+## 🧩 Sections
+
+- **Hero** — Name, animated typing role, CTA buttons
+- **Highlights** — Quick stats (projects, experience, skills)
+- **About** — Bio + animated stat counters
+- **Skills** — Tag cloud of technologies
+- **Projects** — Hover-reveal project cards with links
+- **Certificates** — Clickable certificate gallery
+- **Offer Letters** — Internship & job offer showcase
+- **AI Chat** — Ask the AI about me (OpenRouter-powered)
+- **Snake Game** — Playable game with high score tracking
+- **Feedback** — Leave a real-time message (Firebase)
+- **Socials** — Connect via LinkedIn, GitHub, Instagram, Gmail
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**Designed & Built by [Shiva Saini](https://shivasainiportfolio.vercel.app/)**
+
+*If you found this project useful or inspiring, consider giving it a ⭐ on GitHub!*
+
+</div>
