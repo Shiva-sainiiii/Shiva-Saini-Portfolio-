@@ -1,108 +1,184 @@
 /* ============================================================
-   SHIVA SAINI PORTFOLIO — firebase.js
-   Production-ready Firebase module
+   SHIVA SAINI PORTFOLIO — firebase.js  v2.0
+   Firebase Firestore — Feedback read/write
    ============================================================ */
 
-import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import {
   getFirestore,
   collection,
   addDoc,
   getDocs,
-  query,
   orderBy,
+  query,
   limit,
   serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-/* ─────────────────────────────────────────
-   FIREBASE CONFIG
-   ⚠️  Keep this file out of public repos.
-   Add your config to Vercel env vars and
-   inject at build time for production use.
-───────────────────────────────────────── */
+/* ─── CONFIG ─────────────────────────────────────────────── */
+// Replace these values with your actual Firebase project config.
+// For production, store sensitive keys as Vercel environment variables
+// and inject them at build time. NEVER commit real keys to public repos.
 const firebaseConfig = {
-  apiKey:            "AIzaSyB9uCmYs0teDFqq2Gz-AbOjP35YnVSwaBc",
-  authDomain:        "portfolio-shivasaini.firebaseapp.com",
-  projectId:         "portfolio-shivasaini",
-  storageBucket:     "portfolio-shivasaini.firebasestorage.app",
-  messagingSenderId: "302309151982",
-  appId:             "1:302309151982:web:cb3abc344cb10d2b1f4fff",
-  measurementId:     "G-6DQENZQ9W3"
+  apiKey:            window.__FIREBASE_API_KEY__            || 'YOUR_API_KEY',
+  authDomain:        window.__FIREBASE_AUTH_DOMAIN__        || 'YOUR_AUTH_DOMAIN',
+  projectId:         window.__FIREBASE_PROJECT_ID__         || 'YOUR_PROJECT_ID',
+  storageBucket:     window.__FIREBASE_STORAGE_BUCKET__     || 'YOUR_STORAGE_BUCKET',
+  messagingSenderId: window.__FIREBASE_MESSAGING_SENDER_ID__|| 'YOUR_MESSAGING_SENDER_ID',
+  appId:             window.__FIREBASE_APP_ID__             || 'YOUR_APP_ID'
 };
 
-/* ─────────────────────────────────────────
-   INIT
-───────────────────────────────────────── */
-let app, db;
+/* ─── INIT ───────────────────────────────────────────────── */
+let db;
 
 try {
-  app = initializeApp(firebaseConfig);
-  db  = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  db         = getFirestore(app);
 } catch (err) {
-  console.error("Firebase init failed:", err);
+  console.error('[Firebase] Initialization failed:', err.message);
 }
 
-/* ─────────────────────────────────────────
-   SAVE CHAT
-   Stores user message + AI reply in Firestore
-───────────────────────────────────────── */
-window.saveChat = async (userMessage, aiReply) => {
-  if (!db) return;
+/* ─── FEEDBACK COLLECTION ─────────────────────────────────── */
+const COLLECTION = 'feedback';
+
+/**
+ * Save feedback to Firestore.
+ * @param {string} name
+ * @param {string} message
+ * @returns {Promise<boolean>}
+ */
+async function saveFeedback(name, message) {
+  if (!db) {
+    console.warn('[Firebase] DB not initialized.');
+    return false;
+  }
+
   try {
-    await addDoc(collection(db, "chats"), {
-      userMessage: String(userMessage).slice(0, 500),
-      aiReply:     String(aiReply).slice(0, 1000),
-      createdAt:   serverTimestamp()
+    await addDoc(collection(db, COLLECTION), {
+      name:      name.trim(),
+      message:   message.trim(),
+      createdAt: serverTimestamp()
     });
+    return true;
   } catch (err) {
-    // Non-blocking — don't surface to user
-    console.warn("saveChat error:", err.message);
+    console.error('[Firebase] saveFeedback error:', err.message);
+    return false;
   }
-};
+}
 
-/* ─────────────────────────────────────────
-   SAVE FEEDBACK
-   Stores user name + message in Firestore
-───────────────────────────────────────── */
-window.saveFeedback = async (name, message) => {
-  if (!db) throw new Error("Database not available");
-  await addDoc(collection(db, "feedback"), {
-    name:      String(name).slice(0, 80),
-    message:   String(message).slice(0, 300),
-    createdAt: serverTimestamp()
-  });
-  // Re-throw so caller can catch if needed (handled in script.js)
-};
+/**
+ * Load latest feedback entries from Firestore.
+ * @param {number} [max=20]
+ * @returns {Promise<Array<{name: string, message: string}>>}
+ */
+async function loadFeedback(max = 20) {
+  if (!db) return [];
 
-/* ─────────────────────────────────────────
-   LOAD FEEDBACK
-   Fetches latest 10 feedback items and
-   passes them to script.js renderFeedback()
-───────────────────────────────────────── */
-async function loadFeedback() {
-  if (!db) return;
   try {
-    const q       = query(
-      collection(db, "feedback"),
-      orderBy("createdAt", "desc"),
-      limit(10)
+    const q        = query(
+      collection(db, COLLECTION),
+      orderBy('createdAt', 'desc'),
+      limit(max)
     );
-    const snap    = await getDocs(q);
-    const items   = snap.docs.map(doc => doc.data());
-
-    // Render via script.js helper (defined there to avoid circular dep)
-    if (typeof window.renderFeedback === "function") {
-      window.renderFeedback(items);
-    }
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (err) {
-    console.warn("loadFeedback error:", err.message);
+    console.error('[Firebase] loadFeedback error:', err.message);
+    return [];
   }
 }
 
-// Auto-load feedback once DOM is ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", loadFeedback);
-} else {
-  loadFeedback();
+/* ─── FEEDBACK UI WIRING ──────────────────────────────────── */
+function renderFeedback(items) {
+  const list = document.getElementById('feedback-list');
+  if (!list) return;
+
+  list.innerHTML = '';
+
+  if (!items.length) {
+    const li        = document.createElement('li');
+    li.style.color  = 'rgba(240,240,255,0.3)';
+    li.style.fontSize = '0.84rem';
+    li.textContent  = 'No feedback yet — be the first!';
+    list.appendChild(li);
+    return;
+  }
+
+  items.forEach(({ name, message }) => {
+    const li       = document.createElement('li');
+    li.innerHTML   = `<strong>${escapeHtml(name)}</strong>${escapeHtml(message)}`;
+    list.appendChild(li);
+  });
 }
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+/* ─── FORM HANDLER ─────────────────────────────────────────── */
+function initFeedbackForm() {
+  const form   = document.getElementById('feedbackForm');
+  const nameIn = document.getElementById('fb-name');
+  const msgIn  = document.getElementById('fb-msg');
+  if (!form || !nameIn || !msgIn) return;
+
+  // Load existing feedback on page load
+  loadFeedback().then(renderFeedback);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name    = nameIn.value.trim();
+    const message = msgIn.value.trim();
+
+    // Validation
+    if (!name || name.length < 2) {
+      showToast('⚠️ Please enter your name.');
+      nameIn.focus();
+      return;
+    }
+    if (!message || message.length < 5) {
+      showToast('⚠️ Message is too short.');
+      msgIn.focus();
+      return;
+    }
+
+    // Disable form while submitting
+    const btn       = form.querySelector('button[type="submit"]');
+    const origHTML  = btn.innerHTML;
+    btn.disabled    = true;
+    btn.innerHTML   = '<span>Sending…</span>';
+
+    const success = await saveFeedback(name, message);
+
+    btn.disabled  = false;
+    btn.innerHTML = origHTML;
+
+    if (success) {
+      nameIn.value = '';
+      msgIn.value  = '';
+      showToast('✅ Feedback submitted — thank you!');
+      const updated = await loadFeedback();
+      renderFeedback(updated);
+    } else {
+      showToast('❌ Failed to submit. Please try again.');
+    }
+  });
+}
+
+/* ─── BOOT ─────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', initFeedbackForm);
