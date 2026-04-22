@@ -78,7 +78,7 @@ export default async function handler(req, res) {
         'X-Title':          'Shiva Saini Portfolio'
       },
       body: JSON.stringify({
-        model:       'mistralai/mistral-7b-instruct',   // fast & free-tier friendly
+        model:       'nvidia/nemotron-3-super-120b-a12b:free',   // fast & free-tier friendly
         max_tokens:  350,
         temperature: 0.75,
         messages: [
