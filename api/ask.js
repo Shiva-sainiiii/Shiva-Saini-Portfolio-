@@ -1,127 +1,98 @@
 /* ============================================================
-   SHIVA SAINI PORTFOLIO — api/ask.js
-   Vercel Serverless Function — Production Ready
+   SHIVA SAINI PORTFOLIO — api/ask.js  v2.0
+   Vercel Serverless Function — OpenRouter AI Chat
    ============================================================ */
 
-/* ─────────────────────────────────────────
-   CONFIG
-───────────────────────────────────────── */
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "https://shivasainiportfolio.vercel.app";
-const MAX_MSG_LENGTH = 500;
-const MODEL          = "nvidia/nemotron-super-49b-v1:free"; // free OpenRouter model
+/**
+ * POST /api/ask
+ * Body:  { message: string }
+ * Returns: { reply: string } | { error: string }
+ */
 
-/* ─────────────────────────────────────────
-   SYSTEM PROMPT
-───────────────────────────────────────── */
-const SYSTEM_PROMPT = `
-You are Shiva Saini's personal AI assistant on his portfolio website.
+// System prompt that gives the AI context about Shiva
+const SYSTEM_PROMPT = `You are an AI assistant embedded in Shiva Saini's personal portfolio website.
+Your role is to represent Shiva in a professional, friendly, and enthusiastic manner.
 
-== About Shiva ==
-- Full Name    : Shiva Saini
-- Role         : Full Stack Developer & AI Enthusiast
-- Experience   : 6+ months of real-world development
-- Tech Stack   : HTML, CSS, JavaScript, React, Node.js, MongoDB, Firebase, GSAP, Three.js, Tailwind CSS
-- Specialties  : MERN stack, AI integrations, animated UIs, REST APIs
-- Deployment   : Vercel, GitHub Pages
+About Shiva Saini:
+- He is a passionate web developer and self-learner
+- Tech stack: HTML, CSS, JavaScript, React, Node.js, Python, Firebase, Vercel
+- He has 10+ completed projects including portfolio websites, AI chat apps, and dashboards
+- He has 5+ certifications in web development, JavaScript, Firebase, and Python
+- He has received 3+ internship offer letters
+- His portfolio is at: https://shivasainiportfolio.vercel.app/
+- His GitHub: https://github.com/Shiva-sainiiii
+- He is passionate about AI integrations, modern UI/UX, and clean code
+- He is open to internships, freelance projects, and collaboration opportunities
+- He is currently learning and improving his skills every day
 
-== Projects ==
-1. AI Teaching Assistant  — AI-powered educational platform
-2. Shanu AI (ChatBot)     — Custom conversational AI chatbot
-3. Code Editor AI         — Real-time AI-assisted coding tool
-4. Weather Info           — Dynamic real-time weather app
-5. Tic-Tac-Toe            — Classic game with modern UI
-6. City Cafe              — Restaurant menu web concept
+Your behavior:
+- Be concise, helpful, and friendly
+- Answer questions about Shiva's skills, projects, experience, and availability
+- For general tech questions, answer helpfully and relate back to Shiva's expertise when relevant
+- Keep responses under 150 words unless the question requires more detail
+- Always be positive and encouraging about Shiva's work
+- If asked something you don't know about Shiva specifically, say so honestly and suggest contacting him directly`;
 
-== Work Experience ==
-- Paytm, Paisabazar, CityMall, Wishfin (offer letters available)
-
-== Contact ==
-- GitHub    : github.com/Shiva-sainiiii
-- LinkedIn  : linkedin.com/in/shiva-sainiiii
-- Instagram : @shiva_sainiiii
-- Email     : shivasaini.5666@gmail.com
-
-== Rules ==
-- Answer ONLY questions related to Shiva's profile, skills, projects, or tech in general
-- Keep answers concise, helpful, and friendly (2–4 sentences max)
-- If asked something completely unrelated, politely say you can only answer portfolio-related questions
-- Never make up false credentials or fake projects
-- Speak like a knowledgeable, friendly human — not a robot
-`.trim();
-
-/* ─────────────────────────────────────────
-   CORS HEADERS
-───────────────────────────────────────── */
-function setCORSHeaders(res) {
-  res.setHeader("Access-Control-Allow-Origin",  ALLOWED_ORIGIN);
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
-
-/* ─────────────────────────────────────────
-   MAIN HANDLER
-───────────────────────────────────────── */
 export default async function handler(req, res) {
-  setCORSHeaders(res);
+  // CORS headers
+  res.setHeader('Access-Control-Allow-Origin',  '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   // Handle CORS preflight
-  if (req.method === "OPTIONS") {
-    return res.status(204).end();
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
   // Only allow POST
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed.' });
   }
 
-  // ─── INPUT VALIDATION ───
+  // Validate request body
   const { message } = req.body || {};
 
-  if (!message || typeof message !== "string") {
-    return res.status(400).json({ error: "message field is required and must be a string." });
+  if (!message || typeof message !== 'string' || message.trim().length === 0) {
+    return res.status(400).json({ error: 'Message is required.' });
   }
 
-  const cleanMessage = message.trim().slice(0, MAX_MSG_LENGTH);
-
-  if (cleanMessage.length === 0) {
-    return res.status(400).json({ error: "Message cannot be empty." });
+  if (message.trim().length > 600) {
+    return res.status(400).json({ error: 'Message is too long. Please keep it under 600 characters.' });
   }
 
-  // ─── API KEY CHECK ───
-  const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+  // Check API key
+  const apiKey = process.env.OPENROUTER_API_KEY;
 
-  if (!OPENROUTER_API_KEY) {
-    console.error("OPENROUTER_API_KEY is not set in environment variables.");
-    return res.status(500).json({ error: "Server configuration error." });
+  if (!apiKey) {
+    console.error('[ask.js] OPENROUTER_API_KEY is not set.');
+    return res.status(500).json({ error: 'AI service is not configured. Please contact Shiva.' });
   }
 
-  // ─── CALL OPENROUTER ───
   try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        "Authorization":  `Bearer ${OPENROUTER_API_KEY}`,
-        "Content-Type":   "application/json",
-        "HTTP-Referer":   ALLOWED_ORIGIN,
-        "X-Title":        "Shiva Saini Portfolio"
+        'Authorization':    `Bearer ${apiKey}`,
+        'Content-Type':     'application/json',
+        'HTTP-Referer':     'https://shivasainiportfolio.vercel.app',
+        'X-Title':          'Shiva Saini Portfolio'
       },
       body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 300,
-        temperature: 0.7,
+        model:       'mistralai/mistral-7b-instruct',   // fast & free-tier friendly
+        max_tokens:  350,
+        temperature: 0.75,
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user",   content: cleanMessage  }
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: message.trim() }
         ]
       })
     });
 
-    // ─── HANDLE API ERRORS ───
     if (!response.ok) {
       const errText = await response.text();
-      console.error(`OpenRouter ${response.status}:`, errText);
+      console.error('[ask.js] OpenRouter error:', response.status, errText);
       return res.status(502).json({
-        error: "AI service unavailable. Please try again shortly."
+        error: `AI service returned an error (${response.status}). Please try again.`
       });
     }
 
@@ -129,15 +100,15 @@ export default async function handler(req, res) {
     const reply = data?.choices?.[0]?.message?.content?.trim();
 
     if (!reply) {
-      return res.status(200).json({ reply: "I'm not sure how to answer that. Try asking something about Shiva's skills or projects!" });
+      return res.status(502).json({ error: 'No response from AI. Please try again.' });
     }
 
     return res.status(200).json({ reply });
 
   } catch (err) {
-    console.error("ask.js error:", err.message);
+    console.error('[ask.js] Fetch error:', err.message);
     return res.status(500).json({
-      error: "Something went wrong on our end. Please try again."
+      error: 'Failed to reach AI service. Check your connection and try again.'
     });
   }
 }
