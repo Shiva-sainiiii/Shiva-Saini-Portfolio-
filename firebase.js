@@ -182,3 +182,7 @@ function initFeedbackForm() {
 
 /* ─── BOOT ─────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', initFeedbackForm);
+
+// At the end of firebase.js
+initFeedbackForm();
+
