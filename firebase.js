@@ -1,6 +1,7 @@
 /* ============================================================
-   SHIVA SAINI PORTFOLIO — firebase.js  v2.0
+   SHIVA SAINI PORTFOLIO — firebase.js  v2.1
    Firebase Firestore — Feedback read/write
+   Bug fixes: robust init, submit guard, proper error UX
    ============================================================ */
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -16,9 +17,8 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 /* ─── CONFIG ─────────────────────────────────────────────── */
-// Replace these values with your actual Firebase project config.
-// For production, store sensitive keys as Vercel environment variables
-// and inject them at build time. NEVER commit real keys to public repos.
+// Replace with your actual Firebase project credentials.
+// In production, inject via Vercel environment variables.
 const firebaseConfig = {
   apiKey:            window.__FIREBASE_API_KEY__            || 'YOUR_API_KEY',
   authDomain:        window.__FIREBASE_AUTH_DOMAIN__        || 'YOUR_AUTH_DOMAIN',
@@ -28,14 +28,32 @@ const firebaseConfig = {
   appId:             window.__FIREBASE_APP_ID__             || 'YOUR_APP_ID'
 };
 
-/* ─── INIT ───────────────────────────────────────────────── */
-let db;
+/* ─── VALIDATE CONFIG ────────────────────────────────────── */
+// Detect if the config still has placeholder values so we can
+// show a clear error instead of a cryptic Firebase failure.
+function isConfigured() {
+  return (
+    firebaseConfig.apiKey    !== 'YOUR_API_KEY' &&
+    firebaseConfig.projectId !== 'YOUR_PROJECT_ID' &&
+    firebaseConfig.apiKey    !== '' &&
+    firebaseConfig.projectId !== ''
+  );
+}
 
-try {
-  const app = initializeApp(firebaseConfig);
-  db         = getFirestore(app);
-} catch (err) {
-  console.error('[Firebase] Initialization failed:', err.message);
+/* ─── INIT ───────────────────────────────────────────────── */
+let db = null;
+
+if (isConfigured()) {
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    console.info('[Firebase] Firestore initialized successfully.');
+  } catch (err) {
+    console.error('[Firebase] Initialization failed:', err.message);
+    db = null;
+  }
+} else {
+  console.warn('[Firebase] Config has placeholder values. Feedback storage is disabled.');
 }
 
 /* ─── FEEDBACK COLLECTION ─────────────────────────────────── */
@@ -45,24 +63,22 @@ const COLLECTION = 'feedback';
  * Save feedback to Firestore.
  * @param {string} name
  * @param {string} message
- * @returns {Promise<boolean>}
+ * @returns {Promise<{ok: boolean, reason?: string}>}
  */
 async function saveFeedback(name, message) {
   if (!db) {
-    console.warn('[Firebase] DB not initialized.');
-    return false;
+    return { ok: false, reason: 'not_configured' };
   }
-
   try {
     await addDoc(collection(db, COLLECTION), {
       name:      name.trim(),
       message:   message.trim(),
       createdAt: serverTimestamp()
     });
-    return true;
+    return { ok: true };
   } catch (err) {
     console.error('[Firebase] saveFeedback error:', err.message);
-    return false;
+    return { ok: false, reason: 'write_error' };
   }
 }
 
@@ -73,7 +89,6 @@ async function saveFeedback(name, message) {
  */
 async function loadFeedback(max = 20) {
   if (!db) return [];
-
   try {
     const q        = query(
       collection(db, COLLECTION),
@@ -88,7 +103,7 @@ async function loadFeedback(max = 20) {
   }
 }
 
-/* ─── FEEDBACK UI WIRING ──────────────────────────────────── */
+/* ─── RENDER FEEDBACK ─────────────────────────────────────── */
 function renderFeedback(items) {
   const list = document.getElementById('feedback-list');
   if (!list) return;
@@ -96,21 +111,21 @@ function renderFeedback(items) {
   list.innerHTML = '';
 
   if (!items.length) {
-    const li        = document.createElement('li');
-    li.style.color  = 'rgba(240,240,255,0.3)';
-    li.style.fontSize = '0.84rem';
-    li.textContent  = 'No feedback yet — be the first!';
+    const li       = document.createElement('li');
+    li.style.cssText = 'color:rgba(240,240,255,0.3);font-size:0.84rem;';
+    li.textContent = 'No feedback yet — be the first!';
     list.appendChild(li);
     return;
   }
 
   items.forEach(({ name, message }) => {
-    const li       = document.createElement('li');
-    li.innerHTML   = `<strong>${escapeHtml(name)}</strong>${escapeHtml(message)}`;
+    const li     = document.createElement('li');
+    li.innerHTML = `<strong>${escapeHtml(name)}</strong>${escapeHtml(message)}`;
     list.appendChild(li);
   });
 }
 
+/* ─── UTILITIES ───────────────────────────────────────────── */
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
@@ -134,55 +149,85 @@ function initFeedbackForm() {
   const form   = document.getElementById('feedbackForm');
   const nameIn = document.getElementById('fb-name');
   const msgIn  = document.getElementById('fb-msg');
-  if (!form || !nameIn || !msgIn) return;
 
-  // Load existing feedback on page load
+  if (!form || !nameIn || !msgIn) {
+    // Elements not found — likely an ID mismatch in HTML.
+    // Check that your form has: id="feedbackForm", id="fb-name", id="fb-msg"
+    console.warn('[Feedback] Form elements not found. Check HTML IDs: feedbackForm, fb-name, fb-msg');
+    return;
+  }
+
+  // Load existing feedback
   loadFeedback().then(renderFeedback);
+
+  let isSubmitting = false;  // ← Duplicate-submission guard
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (isSubmitting) return;  // Block double-submit
+
     const name    = nameIn.value.trim();
     const message = msgIn.value.trim();
 
-    // Validation
+    // ─── Validation ──────────────────────────────────────────
     if (!name || name.length < 2) {
-      showToast('⚠️ Please enter your name.');
+      showToast('⚠️ Please enter your name (min. 2 characters).');
       nameIn.focus();
       return;
     }
     if (!message || message.length < 5) {
-      showToast('⚠️ Message is too short.');
+      showToast('⚠️ Message is too short (min. 5 characters).');
+      msgIn.focus();
+      return;
+    }
+    if (message.length > 500) {
+      showToast('⚠️ Message is too long (max 500 characters).');
       msgIn.focus();
       return;
     }
 
-    // Disable form while submitting
-    const btn       = form.querySelector('button[type="submit"]');
-    const origHTML  = btn.innerHTML;
-    btn.disabled    = true;
-    btn.innerHTML   = '<span>Sending…</span>';
+    // ─── Early exit if Firebase not configured ────────────────
+    if (!isConfigured()) {
+      showToast('⚠️ Feedback storage is not configured yet. Contact Shiva directly!');
+      return;
+    }
 
-    const success = await saveFeedback(name, message);
+    // ─── Disable UI during submit ────────────────────────────
+    isSubmitting  = true;
+    const btn     = form.querySelector('button[type="submit"]');
+    const origHTML = btn.innerHTML;
+    btn.disabled  = true;
+    btn.innerHTML = '<span>Sending…</span>';
 
+    const result = await saveFeedback(name, message);
+
+    // ─── Re-enable UI ────────────────────────────────────────
+    isSubmitting  = false;
     btn.disabled  = false;
     btn.innerHTML = origHTML;
 
-    if (success) {
+    // ─── Handle result ───────────────────────────────────────
+    if (result.ok) {
       nameIn.value = '';
       msgIn.value  = '';
       showToast('✅ Feedback submitted — thank you!');
       const updated = await loadFeedback();
       renderFeedback(updated);
+    } else if (result.reason === 'not_configured') {
+      showToast('⚠️ Database not connected. Please configure Firebase.');
     } else {
-      showToast('❌ Failed to submit. Please try again.');
+      showToast('❌ Submission failed. Please try again in a moment.');
     }
   });
 }
 
 /* ─── BOOT ─────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', initFeedbackForm);
-
-// At the end of firebase.js
-initFeedbackForm();
-
+// ES modules are deferred by default, so DOM is ready when this runs.
+// We use DOMContentLoaded as an extra safety net.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initFeedbackForm);
+} else {
+  // DOM already ready (module loaded after parse)
+  initFeedbackForm();
+         }
