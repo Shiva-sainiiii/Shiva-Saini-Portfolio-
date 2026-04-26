@@ -1424,8 +1424,17 @@ nav#navbar.scrolled {
 
   .glass { padding: 22px; }
 
+  /* ★ FIX: Force single-column grid and ensure full visibility */
   .project-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+
+  /* ★ FIX: Guarantee cards are visible on mobile — no GSAP override */
+  .project-card {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
   }
 
   .skills-wrapper {
@@ -1444,3 +1453,4 @@ nav#navbar.scrolled {
   .chat-input { flex-direction: column; }
   .chat-input button { border-radius: 40px; }
 }
+
