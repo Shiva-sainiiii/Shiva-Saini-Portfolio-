@@ -689,6 +689,10 @@ nav#navbar.scrolled {
   text-align: left;
 }
 
+
+/* ─── PROJECTS ─── */
+/* ... existing rules ... */
+
 .project-card {
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -699,8 +703,13 @@ nav#navbar.scrolled {
   transition: all var(--transition);
   display: flex;
   flex-direction: column;
-}
 
+  /* ★ FIX: Explicit opacity — prevents GSAP from leaving cards invisible
+     if ScrollTrigger doesn't fire. GSAP will override this at runtime,
+     and clearProps:'opacity' removes the inline style after animation. */
+  opacity: 1;
+  transform: none;
+}
 .project-card:hover {
   border-color: rgba(138, 43, 226, 0.4);
   box-shadow: 0 16px 48px rgba(138, 43, 226, 0.22);
@@ -1434,19 +1443,4 @@ nav#navbar.scrolled {
   .offer-gallery { grid-template-columns: 1fr 1fr; }
   .chat-input { flex-direction: column; }
   .chat-input button { border-radius: 40px; }
-}
-
-/* Update this in your style.css */
-.project-container {
-  display: grid;
-  /* Change the min value from 320px to 280px */
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-  gap: 30px;
-}
-
-/* Or add this to your Mobile Media Query (max-width: 768px) */
-@media (max-width: 768px) {
-  .project-container {
-    grid-template-columns: 1fr; /* Force one card per row */
-  }
 }
