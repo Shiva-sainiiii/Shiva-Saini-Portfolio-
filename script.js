@@ -1,6 +1,6 @@
 /* ============================================================
-   SHIVA SAINI PORTFOLIO — script.js  v2.0
-   Clean, modular, production-ready JavaScript
+   SHIVA SAINI PORTFOLIO — script.js  v2.1
+   Bug fixes: GSAP mobile visibility + duplicate-send guard
    ============================================================ */
 
 'use strict';
@@ -19,26 +19,11 @@ function initParticles() {
         random: true,
         anim: { enable: true, speed: 0.6, opacity_min: 0.1, sync: false }
       },
-      size: {
-        value: 2.8,
-        random: true,
-        anim: { enable: false }
-      },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: '#8a2be2',
-        opacity: 0.12,
-        width: 1
-      },
+      size: { value: 2.8, random: true, anim: { enable: false } },
+      line_linked: { enable: true, distance: 150, color: '#8a2be2', opacity: 0.12, width: 1 },
       move: {
-        enable: true,
-        speed: 1.2,
-        direction: 'none',
-        random: true,
-        straight: false,
-        out_mode: 'out',
-        bounce: false
+        enable: true, speed: 1.2, direction: 'none',
+        random: true, straight: false, out_mode: 'out', bounce: false
       }
     },
     interactivity: {
@@ -61,12 +46,11 @@ function initParticles() {
 function initScrollProgress() {
   const bar = document.getElementById('scroll-progress');
   if (!bar) return;
-
   window.addEventListener('scroll', () => {
-    const scrollTop    = window.scrollY;
-    const docHeight    = document.documentElement.scrollHeight - window.innerHeight;
-    const pct          = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    bar.style.width    = `${pct}%`;
+    const pct = document.documentElement.scrollHeight - window.innerHeight > 0
+      ? (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      : 0;
+    bar.style.width = `${pct}%`;
   }, { passive: true });
 }
 
@@ -75,12 +59,10 @@ function initNavbar() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
 
-  // Scrolled class
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
 
-  // Active link highlight via IntersectionObserver
   const sections = document.querySelectorAll('section[id]');
   const links    = document.querySelectorAll('.nav-links a');
 
@@ -99,8 +81,8 @@ function initNavbar() {
 
 /* ═══════════════ HAMBURGER MENU ═══════════════ */
 function initHamburger() {
-  const btn   = document.getElementById('hamburger');
-  const menu  = document.getElementById('mobile-nav');
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-nav');
   if (!btn || !menu) return;
 
   btn.addEventListener('click', () => {
@@ -109,7 +91,6 @@ function initHamburger() {
     btn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  // Close on outside click
   document.addEventListener('click', (e) => {
     if (!btn.contains(e.target) && !menu.contains(e.target)) {
       menu.classList.remove('open');
@@ -119,7 +100,6 @@ function initHamburger() {
   });
 }
 
-/* Global helper for mobile nav links */
 window.closeMobileNav = function () {
   const menu = document.getElementById('mobile-nav');
   const btn  = document.getElementById('hamburger');
@@ -132,36 +112,17 @@ function initTyping() {
   const el = document.getElementById('typed-text');
   if (!el) return;
 
-  const phrases = [
-    'Frontend Developer',
-    'UI/UX Enthusiast',
-    'AI Explorer',
-    'Creative Coder',
-    'Problem Solver'
-  ];
-
+  const phrases = ['Frontend Developer', 'UI/UX Enthusiast', 'AI Explorer', 'Creative Coder', 'Problem Solver'];
   let phraseIdx = 0, charIdx = 0, deleting = false;
 
   function tick() {
     const current = phrases[phraseIdx];
-    el.textContent = deleting
-      ? current.slice(0, charIdx--)
-      : current.slice(0, charIdx++);
-
+    el.textContent = deleting ? current.slice(0, charIdx--) : current.slice(0, charIdx++);
     let delay = deleting ? 60 : 100;
-
-    if (!deleting && charIdx === current.length + 1) {
-      delay = 1800;
-      deleting = true;
-    } else if (deleting && charIdx === 0) {
-      deleting  = false;
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-      delay     = 400;
-    }
-
+    if (!deleting && charIdx === current.length + 1) { delay = 1800; deleting = true; }
+    else if (deleting && charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; delay = 400; }
     setTimeout(tick, delay);
   }
-
   tick();
 }
 
@@ -171,61 +132,114 @@ function initGSAP() {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Generic section reveals
+  // ─── KEY FIX: Detect mobile BEFORE setting any GSAP from() states ─────────
+  // gsap.from() immediately sets opacity:0 as inline style.
+  // If ScrollTrigger never fires on mobile, the element is stuck invisible.
+  // Solution: skip stagger animations on mobile, use CSS for visibility instead.
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  // Generic section reveals — safe threshold for all devices
   document.querySelectorAll('.section').forEach(sec => {
     gsap.from(sec, {
-      scrollTrigger: { trigger: sec, start: 'top 85%', once: true },
-      opacity: 0,
-      y: 40,
-      duration: 0.75,
-      ease: 'power3.out'
+      scrollTrigger: {
+        trigger: sec,
+        start: isMobile ? 'top 100%' : 'top 85%',
+        once: true
+      },
+      opacity: 0, y: 30,
+      duration: 0.65,
+      ease: 'power3.out',
+      clearProps: 'opacity,transform'  // ← Remove inline style after animation
     });
   });
 
-  // Stagger project cards
-  gsap.from('.project-card', {
-    scrollTrigger: { trigger: '.project-container', start: 'top 80%', once: true },
-    opacity: 0, y: 50,
-    stagger: 0.12,
-    duration: 0.7,
-    ease: 'power3.out'
-  });
+  // ─── Project cards ──────────────────────────────────────────────────────
+  // FIX: Skip GSAP animation on mobile entirely.
+  // CSS already sets opacity:1 — cards are visible without GSAP.
+  // Desktop: run stagger animation, then clear inline styles so
+  // CSS hover transitions keep working correctly.
+  if (!isMobile) {
+    gsap.from('.project-card', {
+      scrollTrigger: {
+        trigger: '.project-container',
+        start: 'top 82%',
+        once: true,
+        invalidateOnRefresh: true
+      },
+      opacity: 0, y: 50,
+      stagger: 0.12,
+      duration: 0.7,
+      ease: 'power3.out',
+      clearProps: 'opacity,transform'
+    });
+  }
 
-  // Stagger skill groups
-  gsap.from('.skill-group', {
-    scrollTrigger: { trigger: '.skills-wrapper', start: 'top 82%', once: true },
-    opacity: 0, y: 36,
-    stagger: 0.1,
-    duration: 0.65,
-    ease: 'power3.out'
-  });
+  // ─── Skill groups ────────────────────────────────────────────────────────
+  if (!isMobile) {
+    gsap.from('.skill-group', {
+      scrollTrigger: {
+        trigger: '.skills-wrapper',
+        start: 'top 82%',
+        once: true,
+        invalidateOnRefresh: true
+      },
+      opacity: 0, y: 36,
+      stagger: 0.1,
+      duration: 0.65,
+      ease: 'power3.out',
+      clearProps: 'opacity,transform'
+    });
+  }
 
-  // Stagger highlight cards
+  // ─── Highlight cards — safe on all devices ───────────────────────────────
   gsap.from('.highlight-card', {
-    scrollTrigger: { trigger: '.highlight-container', start: 'top 88%', once: true },
+    scrollTrigger: {
+      trigger: '.highlight-container',
+      start: isMobile ? 'top 100%' : 'top 88%',
+      once: true,
+      invalidateOnRefresh: true
+    },
     opacity: 0, scale: 0.92,
     stagger: 0.1,
     duration: 0.55,
-    ease: 'back.out(1.4)'
+    ease: 'back.out(1.4)',
+    clearProps: 'opacity,transform'
   });
 
-  // Stagger cert cards
+  // ─── Certificate cards ───────────────────────────────────────────────────
   gsap.from('.certificate-card', {
-    scrollTrigger: { trigger: '.cert-grid', start: 'top 80%', once: true },
+    scrollTrigger: {
+      trigger: '.cert-grid',
+      start: isMobile ? 'top 100%' : 'top 80%',
+      once: true,
+      invalidateOnRefresh: true
+    },
     opacity: 0, y: 30,
     stagger: 0.1,
     duration: 0.6,
-    ease: 'power3.out'
+    ease: 'power3.out',
+    clearProps: 'opacity,transform'
   });
 
-  // Stat items
+  // ─── Stat items ──────────────────────────────────────────────────────────
   gsap.from('.stat-item', {
-    scrollTrigger: { trigger: '.about-stats', start: 'top 82%', once: true },
+    scrollTrigger: {
+      trigger: '.about-stats',
+      start: isMobile ? 'top 100%' : 'top 82%',
+      once: true,
+      invalidateOnRefresh: true
+    },
     opacity: 0, x: 30,
     stagger: 0.12,
     duration: 0.6,
-    ease: 'power3.out'
+    ease: 'power3.out',
+    clearProps: 'opacity,transform'
   });
+
+  // ─── KEY FIX: Refresh ScrollTrigger after layout settles ─────────────────
+  // Without this, trigger positions computed before images load are wrong —
+  // especially on mobile where layout reflows are common.
+  setTimeout(() => ScrollTrigger.refresh(), 400);
 }
 
 /* ═══════════════ CERTIFICATE LIGHTBOX ═══════════════ */
@@ -248,18 +262,13 @@ function initLightbox() {
     document.body.style.overflow = '';
   };
 
-  // Keyboard close
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') window.closeLightbox();
   });
 
-  // Cert cards: keyboard support
   document.querySelectorAll('.certificate-card').forEach(card => {
     card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.openImg(card);
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openImg(card); }
     });
   });
 }
@@ -268,15 +277,13 @@ function initLightbox() {
 function showToast(msg) {
   const toast = document.getElementById('toast');
   if (!toast) return;
-
   toast.textContent = msg;
   toast.classList.add('show');
-
   clearTimeout(toast._timer);
-  toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+  toast._timer = setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-/* ═══════════════ AI CHAT (Section) ═══════════════ */
+/* ═══════════════ AI CHAT ═══════════════ */
 function initAiChat() {
   const messagesBox = document.getElementById('chat-messages');
   const input       = document.getElementById('chat-input');
@@ -286,7 +293,7 @@ function initAiChat() {
   if (!messagesBox || !input || !sendBtn) return;
 
   function appendMsg(text, role) {
-    const div       = document.createElement('div');
+    const div = document.createElement('div');
     div.className   = `chat-msg ${role}`;
     div.textContent = text;
     messagesBox.appendChild(div);
@@ -294,17 +301,20 @@ function initAiChat() {
     return div;
   }
 
+  let isSending = false;  // Duplicate-send guard
+
   async function sendMessage() {
+    if (isSending) return;               // Prevent double-submission
     const text = input.value.trim();
     if (!text) return;
 
-    input.value = '';
-    input.disabled = true;
+    isSending        = true;
+    input.value      = '';
+    input.disabled   = true;
     sendBtn.disabled = true;
     sendBtn.textContent = '...';
 
     appendMsg(text, 'user');
-
     const typing = appendMsg('Typing…', 'typing');
 
     try {
@@ -313,18 +323,16 @@ function initAiChat() {
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ message: text })
       });
-
-      const data = await res.json();
+      const data  = await res.json();
       messagesBox.removeChild(typing);
-
-      const reply = data.reply || data.error || 'Sorry, something went wrong.';
-      appendMsg(reply, 'ai');
-    } catch (err) {
+      appendMsg(data.reply || data.error || 'Sorry, something went wrong.', 'ai');
+    } catch {
       messagesBox.removeChild(typing);
       appendMsg('⚠️ Network error — please try again.', 'ai');
     } finally {
-      input.disabled   = false;
-      sendBtn.disabled = false;
+      isSending           = false;
+      input.disabled      = false;
+      sendBtn.disabled    = false;
       sendBtn.textContent = 'Send ↗';
       input.focus();
     }
@@ -332,13 +340,9 @@ function initAiChat() {
 
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
 
-  // Clear chat
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       messagesBox.innerHTML = '';
@@ -347,13 +351,9 @@ function initAiChat() {
   }
 }
 
-/* Suggestion chips */
 window.useChip = function (btn) {
   const input = document.getElementById('chat-input');
-  if (input) {
-    input.value = btn.textContent;
-    input.focus();
-  }
+  if (input) { input.value = btn.textContent; input.focus(); }
 };
 
 /* ═══════════════ YEAR IN FOOTER ═══════════════ */
@@ -364,18 +364,11 @@ function initFooterYear() {
 
 /* ═══════════════ IMAGE ERROR FALLBACKS ═══════════════ */
 function initImageFallbacks() {
-  // Project images
   document.querySelectorAll('.project-img-wrap img').forEach(img => {
-    img.addEventListener('error', () => {
-      img.parentElement.classList.add('img-fallback');
-    });
+    img.addEventListener('error', () => img.parentElement.classList.add('img-fallback'));
   });
-
-  // Certificate images
   document.querySelectorAll('.certificate-card img').forEach(img => {
-    img.addEventListener('error', () => {
-      img.parentElement.parentElement.classList.add('cert-fallback');
-    });
+    img.addEventListener('error', () => img.closest('.certificate-card').classList.add('cert-fallback'));
   });
 }
 
@@ -391,7 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initImageFallbacks();
 });
 
-// GSAP & particles init after full load (they need DOM + scripts ready)
 window.addEventListener('load', () => {
   initParticles();
   initGSAP();
