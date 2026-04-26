@@ -1435,3 +1435,18 @@ nav#navbar.scrolled {
   .chat-input { flex-direction: column; }
   .chat-input button { border-radius: 40px; }
 }
+
+/* Update this in your style.css */
+.project-container {
+  display: grid;
+  /* Change the min value from 320px to 280px */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 30px;
+}
+
+/* Or add this to your Mobile Media Query (max-width: 768px) */
+@media (max-width: 768px) {
+  .project-container {
+    grid-template-columns: 1fr; /* Force one card per row */
+  }
+}
