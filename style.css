@@ -1364,6 +1364,54 @@ nav#navbar.scrolled {
   color: var(--text-faint);
 }
 
+/* ─── SOCIAL ICONS — Brand Colors on Hover ─── */
+.social-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* Instagram — purple-pink gradient on hover */
+.social-ig:hover .social-icon {
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* LinkedIn — brand blue on hover */
+.social-li:hover .social-icon {
+  background: #0077b5;
+  border-color: transparent;
+  color: #fff;
+}
+
+/* GitHub — dark on hover */
+.social-gh:hover .social-icon {
+  background: #333;
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Email — red on hover */
+.social-gm:hover .social-icon {
+  background: #ea4335;
+  border-color: transparent;
+  color: #fff;
+}
 /* ─── FOOTER ─── */
 .footer {
   padding: 48px 5% 40px;
