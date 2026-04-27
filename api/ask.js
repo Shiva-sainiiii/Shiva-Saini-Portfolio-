@@ -129,7 +129,7 @@ export default async function handler(req, res) {
         'X-Title':       'Shiva Saini Portfolio — AI Assistant'
       },
       body: JSON.stringify({
-        model:       'google/gemini-flash-1.5',  // Fast, multimodal, generous context
+        model:       'nvidia/nemotron-3-super-120b-a12b:free',  // Fast, multimodal, generous context
         max_tokens:  1500,
         temperature: 0.72,
         messages: [
@@ -153,7 +153,7 @@ export default async function handler(req, res) {
           'X-Title':       'Shiva Saini Portfolio — AI Assistant'
         },
         body: JSON.stringify({
-          model:      'meta-llama/llama-3.1-8b-instruct:free',
+          model:      'nvidia/nemotron-3-super-120b-a12b:free',
           max_tokens: 1000,
           temperature: 0.72,
           messages: [
