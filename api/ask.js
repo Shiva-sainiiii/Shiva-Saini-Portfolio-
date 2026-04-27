@@ -109,10 +109,10 @@ export default async function handler(req, res) {
   // Vision model: supports image + PDF base64
   // Text model:   fast, reliable, free
   const PRIMARY_MODEL  = needsVision
-    ? 'meta-llama/llama-3.2-11b-vision-instruct:free'
-    : 'meta-llama/llama-3.1-8b-instruct:free';
+    ? 'minimax/minimax-m2.5:free'
+    : 'nvidia/nemotron-3-super-120b-a12b:free';
 
-  const FALLBACK_MODEL = 'mistralai/mistral-7b-instruct:free';
+  const FALLBACK_MODEL = 'nvidia/nemotron-3-super-120b-a12b:free';
 
   // ── Call OpenRouter ──────────────────────────────────────
   async function callOpenRouter(model, content) {
