@@ -13,18 +13,18 @@ function initParticles() {
 
   particlesJS('particles-js', {
     particles: {
-      number: { value: 72, density: { enable: true, value_area: 900 } },
+      number: { value: 80, density: { enable: true, value_area: 900 } },
       color: { value: ['#8a2be2', '#00d4ff', '#a855f7'] },
       shape: { type: 'circle' },
       opacity: {
-        value: 0.45,
+        value: 1,
         random: true,
         anim: { enable: true, speed: 0.6, opacity_min: 0.1, sync: false }
       },
-      size: { value: 2.8, random: true, anim: { enable: false } },
+      size: { value: 3, random: true, anim: { enable: false } },
       line_linked: { enable: true, distance: 150, color: '#8a2be2', opacity: 0.12, width: 1 },
       move: {
-        enable: true, speed: 1.2, direction: 'none',
+        enable: true, speed: 2, direction: 'none',
         random: true, straight: false, out_mode: 'out', bounce: false
       }
     },
