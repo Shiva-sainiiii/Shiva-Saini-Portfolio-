@@ -11,6 +11,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
 
+  <!-- Highlight.js — Syntax Highlighting (atom-one-dark theme) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+
+  <!-- Marked.js — Markdown Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js" defer></script>
+
   <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js" defer></script>
 
@@ -72,7 +79,7 @@
       </div>
       <p class="tagline">Building Ideas into Reality</p>
       <p class="hero-desc">
-        A passionate developer crafting modern web experiences — from elegant UI to powerful backends. 
+        A passionate developer crafting modern web experiences — from elegant UI to powerful backends.
         I love turning complex problems into clean, scalable solutions.
       </p>
       <div class="hero-buttons">
@@ -82,8 +89,6 @@
         </a>
       </div>
     </div>
-
-    <!-- Scroll hint -->
     <div class="scroll-hint" aria-hidden="true">
       <div class="scroll-dot"></div>
     </div>
@@ -119,13 +124,13 @@
     <div class="about-inner glass">
       <div class="about-text">
         <p>
-          Hey! I'm <strong>Shiva Saini</strong>, a self-driven developer passionate about building 
-          things that live on the internet. I specialize in creating modern, performant web applications 
+          Hey! I'm <strong>Shiva Saini</strong>, a self-driven developer passionate about building
+          things that live on the internet. I specialize in creating modern, performant web applications
           with clean code and intuitive user experiences.
         </p>
         <br />
         <p>
-          I'm constantly learning — from exploring new frameworks to diving deep into AI integrations. 
+          I'm constantly learning — from exploring new frameworks to diving deep into AI integrations.
           I believe great software is equal parts logic and creativity, and I bring both to every project.
         </p>
         <div class="about-tags">
@@ -164,7 +169,6 @@
     <p class="section-sub">Technologies I work with on a daily basis</p>
 
     <div class="skills-wrapper">
-      <!-- Frontend -->
       <div class="skill-group">
         <div class="skill-group-header">
           <span class="skill-group-icon">🎨</span>
@@ -180,7 +184,6 @@
         </div>
       </div>
 
-      <!-- Backend -->
       <div class="skill-group">
         <div class="skill-group-header">
           <span class="skill-group-icon">⚙️</span>
@@ -195,7 +198,6 @@
         </div>
       </div>
 
-      <!-- Tools & Platforms -->
       <div class="skill-group">
         <div class="skill-group-header">
           <span class="skill-group-icon">🛠️</span>
@@ -210,7 +212,6 @@
         </div>
       </div>
 
-      <!-- AI & Other -->
       <div class="skill-group">
         <div class="skill-group-header">
           <span class="skill-group-icon">🤖</span>
@@ -225,241 +226,233 @@
       </div>
     </div>
   </section>
-<!-- ═══════════════════ PROJECTS ═══════════════════ -->
-<section class="section" id="projects" aria-label="Projects">
-  <p class="section-label">WHAT I'VE BUILT</p>
-  <h2 class="section-title">Featured Projects</h2>
-  <p class="section-sub">A selection of my best work — click to explore</p>
 
-  <div class="project-container">
+  <!-- ═══════════════════ PROJECTS ═══════════════════ -->
+  <section class="section" id="projects" aria-label="Projects">
+    <p class="section-label">WHAT I'VE BUILT</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">A selection of my best work — click to explore</p>
 
-    <!-- Restaurant Menu AI -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project1.jpg" alt="Restaurant Menu AI" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🍽️</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Restaurant Menu AI</h3>
-          <div class="project-badge">AI</div>
-        </div>
-        <p>An AI-powered menu generator using OpenRouter API with serverless functions and Firebase integration, deployed on Vercel.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>OpenRouter</span><span>Firebase</span><span>Vercel</span>
-        </div>
-        <div class="project-buttons">
-          <a href="https://restaurant-menu-ai.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Restaurant-Menu-Ai-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+    <div class="project-container">
 
-    <!-- Code Editor AI -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project2.jpg" alt="Code Editor AI" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>💻</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Code Editor AI</h3>
-          <div class="project-badge">AI</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project1.jpg" alt="Restaurant Menu AI" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🍽️</span></div>
         </div>
-        <p>A browser-based code editor with AI assistance, supporting multiple languages with live preview and smart suggestions.</p>
-        <div class="project-tech">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>AI API</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Restaurant Menu AI</h3>
+            <div class="project-badge">AI</div>
+          </div>
+          <p>An AI-powered menu generator using OpenRouter API with serverless functions and Firebase integration, deployed on Vercel.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>OpenRouter</span><span>Firebase</span><span>Vercel</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://restaurant-menu-ai.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Restaurant-Menu-Ai-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://code-editor-ai-taupe.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Code-Editor-Ai" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- Shanu AI Chatbot -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project3.jpg" alt="Shanu AI Chatbot" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🤖</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Shanu AI Chatbot</h3>
-          <div class="project-badge">AI</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project2.jpg" alt="Code Editor AI" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>💻</span></div>
         </div>
-        <p>A conversational AI chatbot with real-time responses and modern UI powered by OpenRouter models.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>AI API</span><span>CSS</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Code Editor AI</h3>
+            <div class="project-badge">AI</div>
+          </div>
+          <p>A browser-based code editor with AI assistance, supporting multiple languages with live preview and smart suggestions.</p>
+          <div class="project-tech">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>AI API</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://code-editor-ai-taupe.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Code-Editor-Ai" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://shanu-ai-iota.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Shanu-Ai-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- Portfolio Website -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project4.jpg" alt="Portfolio Website" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🌐</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Portfolio Website</h3>
-          <div class="project-badge">Web</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project3.jpg" alt="Shanu AI Chatbot" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🤖</span></div>
         </div>
-        <p>A modern personal portfolio with animations, AI chat integration, Firebase backend, and deployed on Vercel.</p>
-        <div class="project-tech">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Firebase</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Shanu AI Chatbot</h3>
+            <div class="project-badge">AI</div>
+          </div>
+          <p>A conversational AI chatbot with real-time responses and modern UI powered by OpenRouter models.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>AI API</span><span>CSS</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://shanu-ai-iota.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Shanu-Ai-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://shivasainiportfolio.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- AI Mind Trap -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project5.jpg" alt="AI Mind Trap" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🧠</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>AI Mind Trap</h3>
-          <div class="project-badge">Game</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project4.jpg" alt="Portfolio Website" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🌐</span></div>
         </div>
-        <p>An interactive AI-based puzzle game that challenges user thinking with logic traps and smart responses.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>Game Logic</span><span>AI</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Portfolio Website</h3>
+            <div class="project-badge">Web</div>
+          </div>
+          <p>A modern personal portfolio with animations, AI chat integration, Firebase backend, and deployed on Vercel.</p>
+          <div class="project-tech">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Firebase</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://shivasainiportfolio.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Shiva-Saini-Portfolio-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://ai-mind-trap.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Ai-Mind-Trap" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- AI Teaching Assistant -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project6.jpg" alt="AI Teaching Assistant" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>📚</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>AI Teaching Assistant</h3>
-          <div class="project-badge">AI</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project5.jpg" alt="AI Mind Trap" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🧠</span></div>
         </div>
-        <p>An AI-based learning assistant supporting PDF/image upload and question answering for students.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>AI</span><span>File Upload</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>AI Mind Trap</h3>
+            <div class="project-badge">Game</div>
+          </div>
+          <p>An interactive AI-based puzzle game that challenges user thinking with logic traps and smart responses.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>Game Logic</span><span>AI</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://ai-mind-trap.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Ai-Mind-Trap" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://ai-teaching-assistants.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Ai-Teaching-Assistants-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- Weather Info -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project7.jpg" alt="Weather Info" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🌦️</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Weather Info</h3>
-          <div class="project-badge">Web</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project6.jpg" alt="AI Teaching Assistant" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>📚</span></div>
         </div>
-        <p>A weather application showing real-time weather data using APIs with a clean UI.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>API</span><span>CSS</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>AI Teaching Assistant</h3>
+            <div class="project-badge">AI</div>
+          </div>
+          <p>An AI-based learning assistant supporting PDF/image upload and question answering for students.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>AI</span><span>File Upload</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://ai-teaching-assistants.vercel.app/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Ai-Teaching-Assistants-" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://shiva-sainiiii.github.io/Weather-Info/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Weather-Info" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
-        </div>
-      </div>
-    </article>
+      </article>
 
-    <!-- Tic Tac Toe -->
-    <article class="project-card">
-      <div class="project-img-wrap">
-        <img src="assets/project8.jpg" alt="Tic Tac Toe" loading="lazy"
-          onerror="this.parentElement.classList.add('img-fallback')" />
-        <div class="project-img-placeholder"><span>🎮</span></div>
-      </div>
-      <div class="project-info">
-        <div class="project-top">
-          <h3>Tic Tac Toe</h3>
-          <div class="project-badge">Game</div>
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project7.jpg" alt="Weather Info" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🌦️</span></div>
         </div>
-        <p>A classic Tic Tac Toe game with interactive UI and smooth gameplay experience.</p>
-        <div class="project-tech">
-          <span>HTML</span><span>CSS</span><span>JavaScript</span>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Weather Info</h3>
+            <div class="project-badge">Web</div>
+          </div>
+          <p>A weather application showing real-time weather data using APIs with a clean UI.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>API</span><span>CSS</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://shiva-sainiiii.github.io/Weather-Info/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Weather-Info" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
         </div>
-        <div class="project-buttons">
-          <a href="https://shiva-sainiiii.github.io/Tic-Tac-Toe/" target="_blank" class="btn-proj">🔗 Live Demo</a>
-          <a href="https://github.com/Shiva-sainiiii/Tic-Tac-Toe" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+      </article>
+
+      <article class="project-card">
+        <div class="project-img-wrap">
+          <img src="assets/project8.jpg" alt="Tic Tac Toe" loading="lazy"
+            onerror="this.parentElement.classList.add('img-fallback')" />
+          <div class="project-img-placeholder"><span>🎮</span></div>
         </div>
-      </div>
-    </article>
+        <div class="project-info">
+          <div class="project-top">
+            <h3>Tic Tac Toe</h3>
+            <div class="project-badge">Game</div>
+          </div>
+          <p>A classic Tic Tac Toe game with interactive UI and smooth gameplay experience.</p>
+          <div class="project-tech">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span>
+          </div>
+          <div class="project-buttons">
+            <a href="https://shiva-sainiiii.github.io/Tic-Tac-Toe/" target="_blank" class="btn-proj">🔗 Live Demo</a>
+            <a href="https://github.com/Shiva-sainiiii/Tic-Tac-Toe" target="_blank" class="btn-proj btn-proj-ghost">⌥ GitHub</a>
+          </div>
+        </div>
+      </article>
 
-  </div>
-          </section>
-
-
-<!-- ═══════════════════ CERTIFICATES ═══════════════════ -->
-<section class="section" id="certificates" aria-label="Certificates">
-  <p class="section-label">PROOF OF LEARNING</p>
-  <h2 class="section-title">Certificates</h2>
-  <p class="section-sub">Courses and certifications I've completed</p>
-
-  <div class="cert-grid">
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 1">
-      <img src="assets/certificate1.jpg" alt="Certificate 1" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">Web Development Internship (OCTANET Pvt Ltd)</div>
     </div>
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 2">
-      <img src="assets/certificate2.jpg" alt="Certificate 2" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">Ai For Beginers (MICROSOFT) </div>
+  </section>
+
+  <!-- ═══════════════════ CERTIFICATES ═══════════════════ -->
+  <section class="section" id="certificates" aria-label="Certificates">
+    <p class="section-label">PROOF OF LEARNING</p>
+    <h2 class="section-title">Certificates</h2>
+    <p class="section-sub">Courses and certifications I've completed</p>
+
+    <div class="cert-grid">
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 1">
+        <img src="assets/certificate1.jpg" alt="Certificate 1" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">Web Development Internship (OCTANET Pvt Ltd)</div>
+      </div>
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 2">
+        <img src="assets/certificate2.jpg" alt="Certificate 2" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">AI For Beginners (MICROSOFT)</div>
+      </div>
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 3">
+        <img src="assets/certificate3.jpg" alt="Certificate 3" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">Data Entry Operator (IT/ITes)</div>
+      </div>
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 4">
+        <img src="assets/certificate4.jpg" alt="Certificate 4" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">ADCA (Sunshine Campus)</div>
+      </div>
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 5">
+        <img src="assets/certificate5.jpg" alt="Certificate 5" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">CRM (IT/ITeS)</div>
+      </div>
+      <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 6">
+        <img src="assets/certificate6.jpg" alt="Certificate 6" loading="lazy"
+          onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
+        <div class="cert-label">Web Development Internship (CODSOFT)</div>
+      </div>
     </div>
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 3">
-      <img src="assets/certificate3.jpg" alt="Certificate 3" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">Data Entry Operator (IT/ITes) </div>
-    </div>
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 4">
-      <img src="assets/certificate4.jpg" alt="Certificate 4" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">ADCA (Sunshine Campus)</div>
-    </div>
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 4">
-      <img src="assets/certificate5.jpg" alt="Certificate 4" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">CRM (IT/ITeS)</div>
-    </div>
-    <div class="certificate-card" onclick="openImg(this)" role="button" tabindex="0" aria-label="View certificate 4">
-      <img src="assets/certificate6.jpg" alt="Certificate 4" loading="lazy"
-        onerror="this.src=''; this.parentElement.classList.add('cert-fallback')" />
-      <div class="cert-label">Web Development Internship (CODSOFT)</div>
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- Certificate Lightbox -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer" onclick="closeLightbox()">
@@ -475,24 +468,24 @@
 
     <div class="offer-gallery">
       <div class="offer-card">
-        <span class="offer-icon">🏢</span>
+        <span class="offer-icon">🌐</span>
         <p>PAYTM<br /><small>Web Developer Intern</small></p>
         <a href="assets/offer1.pdf" target="_blank" rel="noopener" class="btn-small">View Letter</a>
       </div>
       <div class="offer-card">
-        <span class="offer-icon">🏢</span>
+        <span class="offer-icon">🎨</span>
         <p>WISHFIN<br /><small>Frontend Intern</small></p>
         <a href="assets/offer2.pdf" target="_blank" rel="noopener" class="btn-small">View Letter</a>
       </div>
       <div class="offer-card">
-        <span class="offer-icon">🏢</span>
+        <span class="offer-icon">⚙️</span>
         <p>CITYMALL<br /><small>Full Stack Intern</small></p>
         <a href="assets/offer3.pdf" target="_blank" rel="noopener" class="btn-small">View Letter</a>
       </div>
-            <div class="offer-card">
+      <div class="offer-card">
         <span class="offer-icon">🏢</span>
         <p>PAISABAZAR<br /><small>Web Developer Intern</small></p>
-        <a href="assets/offer1.pdf" target="_blank" rel="noopener" class="btn-small">View Letter</a>
+        <a href="assets/offer4.pdf" target="_blank" rel="noopener" class="btn-small">View Letter</a>
       </div>
     </div>
   </section>
@@ -501,40 +494,99 @@
   <section class="section" id="ai-chat" aria-label="AI Chat">
     <p class="section-label">TALK TO AN AI</p>
     <h2 class="section-title">Ask My AI Assistant</h2>
-    <p class="section-sub">Ask anything about me, my projects, or just have a conversation</p>
+    <p class="section-sub">Ask about Shiva, generate code, analyze files — a full developer assistant</p>
 
     <div class="chat-section-inner glass">
+
+      <!-- ── Header ── -->
       <div class="chat-header-section">
         <div class="chat-status">
           <div class="chat-status-dot"></div>
-          <span>AI Online — Powered by OpenRouter</span>
+          <span>AI Online — Powered by Gemini Flash</span>
         </div>
-        <button class="chat-clear-btn" id="clearChat" aria-label="Clear chat history">Clear Chat</button>
+        <div class="chat-header-actions">
+          <span class="chat-model-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Gemini Flash 1.5
+          </span>
+          <button class="chat-clear-btn" id="clearChat" aria-label="Clear chat history">Clear</button>
+        </div>
       </div>
 
+      <!-- ── Messages ── -->
       <div class="chat-box" id="chat-messages" role="log" aria-live="polite" aria-label="Chat messages">
-        <div class="chat-msg ai">
-          👋 Hi! I'm Shiva's AI assistant. Ask me about his skills, projects, experience, or anything else!
+        <div class="chat-msg-wrapper ai">
+          <div class="chat-msg ai">
+            👋 Hi! I'm Shiva's AI assistant. Ask me about his skills &amp; projects, request a code snippet, upload an image or PDF, or use the mic to speak your question!
+          </div>
         </div>
       </div>
 
-      <div class="chat-input">
-        <input
-          type="text"
-          id="chat-input"
-          placeholder="Ask something about Shiva..."
-          aria-label="Chat message input"
-          autocomplete="off"
-          maxlength="500"
-        />
-        <button id="send-btn" aria-label="Send message">Send ↗</button>
+      <!-- ── File Preview Strip ── -->
+      <div class="file-preview-strip" id="file-preview" style="display:none;" aria-live="polite"></div>
+
+      <!-- ── Input Area ── -->
+      <div class="chat-input-area">
+        <div class="chat-input-row">
+
+          <!-- Hidden file input -->
+          <input type="file" id="file-input" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+            style="display:none;" aria-hidden="true" />
+
+          <!-- Attach button -->
+          <button class="chat-action-btn" id="file-attach-btn" title="Attach image or PDF" aria-label="Attach file">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+          </button>
+
+          <!-- Text input -->
+          <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask anything — code, career, projects..."
+            aria-label="Chat message input"
+            autocomplete="off"
+            maxlength="1000"
+          />
+
+          <!-- Mic button -->
+          <button class="chat-action-btn mic-btn" id="mic-btn" title="Voice input" aria-label="Voice input">
+            <svg class="mic-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+            <span class="mic-pulse-ring"></span>
+          </button>
+
+          <!-- Send button -->
+          <button class="chat-send-btn" id="send-btn" aria-label="Send message">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22,2 15,22 11,13 2,9"/>
+            </svg>
+          </button>
+
+        </div>
+        <p class="chat-input-hint">
+          <kbd>Enter</kbd> to send &nbsp;·&nbsp;
+          <kbd>📎</kbd> Image / PDF &nbsp;·&nbsp;
+          <kbd>🎙</kbd> Voice &nbsp;·&nbsp;
+          Renders markdown &amp; syntax highlighting
+        </p>
       </div>
 
+      <!-- ── Suggestion Chips ── -->
       <div class="chat-suggestions">
         <button class="suggestion-chip" onclick="useChip(this)">What are Shiva's skills?</button>
-        <button class="suggestion-chip" onclick="useChip(this)">Tell me about his projects</button>
+        <button class="suggestion-chip" onclick="useChip(this)">Write a React useEffect hook</button>
         <button class="suggestion-chip" onclick="useChip(this)">Is he available to hire?</button>
+        <button class="suggestion-chip" onclick="useChip(this)">Explain async/await in JS</button>
+        <button class="suggestion-chip" onclick="useChip(this)">Reverse a linked list in Python</button>
       </div>
+
     </div>
   </section>
 
@@ -561,68 +613,64 @@
     </div>
   </section>
 
-<!-- ═══════════════════ CONTACT / SOCIALS ═══════════════════ -->
-<section class="section" id="contact" aria-label="Contact">
-  <p class="section-label">GET IN TOUCH</p>
-  <h2 class="section-title">Let's Connect</h2>
-  <p class="section-sub">Find me across the web — I'm always open to interesting conversations</p>
+  <!-- ═══════════════════ CONTACT / SOCIALS ═══════════════════ -->
+  <section class="section" id="contact" aria-label="Contact">
+    <p class="section-label">GET IN TOUCH</p>
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-sub">Find me across the web — I'm always open to interesting conversations</p>
 
-  <div class="social-grid">
+    <div class="social-grid">
 
-    <!-- Instagram -->
-    <a href="https://instagram.com/shiva_sainiiii" target="_blank" rel="noopener" class="social-link social-ig" aria-label="Instagram">
-      <span class="social-left">
-        <span class="social-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
+      <a href="https://instagram.com/shiva_sainiiii" target="_blank" rel="noopener" class="social-link social-ig" aria-label="Instagram">
+        <span class="social-left">
+          <span class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </span>
+          Instagram
         </span>
-        Instagram
-      </span>
-      <span class="social-handle">@shiva_sainiiii</span>
-    </a>
+        <span class="social-handle">@shiva_sainiiii</span>
+      </a>
 
-    <!-- LinkedIn -->
-    <a href="https://linkedin.com/in/shiva-saini" target="_blank" rel="noopener" class="social-link social-li" aria-label="LinkedIn">
-      <span class="social-left">
-        <span class="social-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
+      <a href="https://linkedin.com/in/shiva-saini" target="_blank" rel="noopener" class="social-link social-li" aria-label="LinkedIn">
+        <span class="social-left">
+          <span class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </span>
+          LinkedIn
         </span>
-        LinkedIn
-      </span>
-      <span class="social-handle">Shiva Saini</span>
-    </a>
+        <span class="social-handle">Shiva Saini</span>
+      </a>
 
-    <!-- GitHub -->
-    <a href="https://github.com/Shiva-sainiiii" target="_blank" rel="noopener" class="social-link social-gh" aria-label="GitHub">
-      <span class="social-left">
-        <span class="social-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-          </svg>
+      <a href="https://github.com/Shiva-sainiiii" target="_blank" rel="noopener" class="social-link social-gh" aria-label="GitHub">
+        <span class="social-left">
+          <span class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </span>
+          GitHub
         </span>
-        GitHub
-      </span>
-      <span class="social-handle">@Shiva-sainiiii</span>
-    </a>
+        <span class="social-handle">@Shiva-sainiiii</span>
+      </a>
 
-    <!-- Email -->
-    <a href="mailto:shivasaini.5666@gmail.com" class="social-link social-gm" aria-label="Email">
-      <span class="social-left">
-        <span class="social-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
-          </svg>
+      <a href="mailto:shivasaini.5666@gmail.com" class="social-link social-gm" aria-label="Email">
+        <span class="social-left">
+          <span class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+            </svg>
+          </span>
+          Email
         </span>
-        Email
-      </span>
-      <span class="social-handle">shivasaini.5666@gmail.com</span>
-    </a>
+        <span class="social-handle">shivasaini.5666@gmail.com</span>
+      </a>
 
-  </div>
-</section>
+    </div>
+  </section>
 
   <!-- ═══════════════════ FOOTER ═══════════════════ -->
   <footer class="footer">
@@ -639,5 +687,6 @@
   <script type="module" src="firebase.js"></script>
   <!-- Main Script -->
   <script src="script.js"></script>
+
 </body>
 </html>
