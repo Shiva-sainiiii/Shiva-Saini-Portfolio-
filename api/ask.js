@@ -1,8 +1,9 @@
 /* ============================================================
-   SHIVA SAINI PORTFOLIO — api/ask.js  v3.0
+   SHIVA SAINI PORTFOLIO — api/ask.js  v3.1
    Vercel Serverless Function — OpenRouter AI Chat
-   Supports: text, images (base64), PDFs (base64)
-   Model: google/gemini-flash-1.5 (multimodal, fast, free-tier)
+   Fix: replaced unavailable model with confirmed free-tier models
+   Primary:  meta-llama/llama-3.2-11b-vision-instruct:free  (vision + text)
+   Fallback: meta-llama/llama-3.1-8b-instruct:free           (text only)
    ============================================================ */
 
 const SYSTEM_PROMPT = `You are an elite AI assistant embedded in Shiva Saini's personal developer portfolio.
@@ -53,11 +54,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed.' });
+  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed.' });
 
   const { message, file } = req.body || {};
 
-  // Validate: must have at least message or a file
   const hasMessage = message && typeof message === 'string' && message.trim().length > 0;
   const hasFile    = file && file.data && file.type;
 
@@ -71,121 +71,109 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    console.error('[ask.js] OPENROUTER_API_KEY is not set.');
+    console.error('[ask.js] OPENROUTER_API_KEY is not set in environment variables.');
     return res.status(500).json({ error: 'AI service not configured. Please contact Shiva.' });
   }
 
-  try {
-    // ── Build user message content (multimodal) ──────────────────
-    let userContent;
+  // ── Determine if this needs a vision-capable model ──────
+  const needsVision = hasFile && (
+    file.type.startsWith('image/') ||
+    file.type === 'application/pdf'
+  );
 
-    if (hasFile) {
-      const isImage = file.type.startsWith('image/');
-      const isPDF   = file.type === 'application/pdf';
+  // ── Build user content (multimodal or plain text) ────────
+  let userContent;
 
-      if (isImage) {
-        // Vision message: image + optional text
-        userContent = [
-          ...(hasMessage ? [{ type: 'text', text: message.trim() }] : [{ type: 'text', text: 'Please analyze this image and describe what you see in detail.' }]),
-          {
-            type: 'image_url',
-            image_url: {
-              url: `data:${file.type};base64,${file.data}`
-            }
-          }
-        ];
-      } else if (isPDF) {
-        // Gemini Flash supports PDF as base64 document
-        userContent = [
-          {
-            type: 'text',
-            text: hasMessage
-              ? message.trim()
-              : 'Please analyze this PDF document and summarize its contents.'
-          },
-          {
-            type: 'image_url',
-            image_url: {
-              url: `data:application/pdf;base64,${file.data}`
-            }
-          }
-        ];
-      } else {
-        // Unsupported file type — text-only fallback
-        userContent = message.trim() || 'Please help me with this file.';
+  if (needsVision) {
+    const textPart = hasMessage
+      ? message.trim()
+      : (file.type === 'application/pdf'
+          ? 'Please analyze this PDF and summarize its key contents.'
+          : 'Please analyze this image and describe what you see in detail.');
+
+    userContent = [
+      { type: 'text', text: textPart },
+      {
+        type: 'image_url',
+        image_url: {
+          url: `data:${file.type};base64,${file.data}`
+        }
       }
-    } else {
-      // Plain text message
-      userContent = message.trim();
-    }
+    ];
+  } else {
+    userContent = hasMessage ? message.trim() : 'Hello!';
+  }
 
-    // ── Call OpenRouter API ──────────────────────────────────────
+  // ── Model selection ──────────────────────────────────────
+  // These are confirmed free-tier models on OpenRouter (April 2025)
+  // Vision model: supports image + PDF base64
+  // Text model:   fast, reliable, free
+  const PRIMARY_MODEL  = needsVision
+    ? 'meta-llama/llama-3.2-11b-vision-instruct:free'
+    : 'meta-llama/llama-3.1-8b-instruct:free';
+
+  const FALLBACK_MODEL = 'mistralai/mistral-7b-instruct:free';
+
+  // ── Call OpenRouter ──────────────────────────────────────
+  async function callOpenRouter(model, content) {
+    const body = {
+      model,
+      max_tokens:  1200,
+      temperature: 0.72,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user',   content }
+      ]
+    };
+
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type':  'application/json',
         'HTTP-Referer':  'https://shivasainiportfolio.vercel.app',
-        'X-Title':       'Shiva Saini Portfolio — AI Assistant'
+        'X-Title':       'Shiva Saini Portfolio'
       },
-      body: JSON.stringify({
-        model:       'nvidia/nemotron-3-super-120b-a12b:free',  // Fast, multimodal, generous context
-        max_tokens:  1500,
-        temperature: 0.72,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user',   content: userContent   }
-        ]
-      })
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('[ask.js] OpenRouter error:', response.status, errText);
-
-      // Try fallback model if primary fails
-      const fallback = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type':  'application/json',
-          'HTTP-Referer':  'https://shivasainiportfolio.vercel.app',
-          'X-Title':       'Shiva Saini Portfolio — AI Assistant'
-        },
-        body: JSON.stringify({
-          model:      'nvidia/nemotron-3-super-120b-a12b:free',
-          max_tokens: 1000,
-          temperature: 0.72,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user',   content: typeof userContent === 'string' ? userContent : (message || 'Hello') }
-          ]
-        })
-      });
-
-      if (!fallback.ok) {
-        return res.status(502).json({
-          error: `AI service error (${response.status}). Please try again.`
-        });
-      }
-
-      const fallbackData  = await fallback.json();
-      const fallbackReply = fallbackData?.choices?.[0]?.message?.content?.trim();
-      if (!fallbackReply) return res.status(502).json({ error: 'No response from AI. Please try again.' });
-      return res.status(200).json({ reply: fallbackReply });
+      console.error(`[ask.js] Model ${model} error ${response.status}:`, errText);
+      return null;
     }
 
     const data  = await response.json();
     const reply = data?.choices?.[0]?.message?.content?.trim();
+    return reply || null;
+  }
 
-    if (!reply) return res.status(502).json({ error: 'Empty response from AI. Please try again.' });
+  try {
+    // Try primary model first
+    let reply = await callOpenRouter(PRIMARY_MODEL, userContent);
+
+    // If primary failed and it was a vision request, try fallback with text only
+    if (!reply) {
+      console.warn('[ask.js] Primary model failed, trying fallback...');
+      const fallbackContent = hasMessage
+        ? message.trim()
+        : 'Please describe what was in the uploaded file (file content unavailable in fallback mode).';
+      reply = await callOpenRouter(FALLBACK_MODEL, fallbackContent);
+    }
+
+    if (!reply) {
+      return res.status(502).json({
+        error: 'AI models are currently unavailable. Please try again in a moment.'
+      });
+    }
 
     return res.status(200).json({ reply });
 
   } catch (err) {
-    console.error('[ask.js] Fetch error:', err.message);
+    // Log the REAL error for debugging in Vercel logs
+    console.error('[ask.js] Unexpected error:', err.message, err.stack);
     return res.status(500).json({
-      error: 'Failed to reach AI service. Check your connection and try again.'
+      error: `Server error: ${err.message}. Please try again.`
     });
   }
 }
