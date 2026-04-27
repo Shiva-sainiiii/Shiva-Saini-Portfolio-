@@ -101,7 +101,29 @@ function initHamburger() {
     }
   });
 }
+/* smooth scrolling */
+function initSmoothScroll() {
+  if (typeof gsap !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
 
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+
+      if (typeof gsap !== 'undefined') {
+        gsap.to(window, {
+          duration: 0.9,
+          scrollTo: { y: target, offsetY: 66 },
+          ease: 'power3.inOut'
+        });
+      } else {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+/* existing code */
 window.closeMobileNav = function () {
   const menu = document.getElementById('mobile-nav');
   const btn  = document.getElementById('hamburger');
@@ -631,6 +653,7 @@ function initImageFallbacks() {
 
 /* ═══════════════ BOOT ═══════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+  initSmoothScroll(); // ← yahan add karo
   initScrollProgress();
   initNavbar();
   initHamburger();
@@ -640,6 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFooterYear();
   initImageFallbacks();
 });
+
 
 window.addEventListener('load', () => {
   initParticles();
