@@ -129,7 +129,7 @@ export default async function handler(req, res) {
         'X-Title':       'Shiva Saini Portfolio — AI Assistant'
       },
       body: JSON.stringify({
-        model:       'nvidia/nemotron-3-super-120b-a12b:free',  // Fast, multimodal, generous context
+        model:       'google/gemini-flash-1.5',  // Fast, multimodal, generous context
         max_tokens:  1500,
         temperature: 0.72,
         messages: [
@@ -153,7 +153,7 @@ export default async function handler(req, res) {
           'X-Title':       'Shiva Saini Portfolio — AI Assistant'
         },
         body: JSON.stringify({
-          model:      'nvidia/nemotron-3-super-120b-a12b:free',
+          model:      'meta-llama/llama-3.1-8b-instruct:free',
           max_tokens: 1000,
           temperature: 0.72,
           messages: [
@@ -188,4 +188,4 @@ export default async function handler(req, res) {
       error: 'Failed to reach AI service. Check your connection and try again.'
     });
   }
-                                               }
+}
