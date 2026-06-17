@@ -382,7 +382,7 @@ nav#navbar.scrolled {
 .name {
   /* existing properties rakhna... bas ye add karo: */
   letter-spacing: 0.02em;
-  transition: letter-spacing 3s ease;
+  transition: letter-spacing 10s ease;
 }
 
 .typing-wrap {
