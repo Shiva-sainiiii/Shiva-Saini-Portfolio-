@@ -183,7 +183,7 @@ function initScrambleText() {
     iteration = 0;
     cancelAnimationFrame(frame);
     scramble();
-  }, 300);
+  }, 1000);
 }
 
 /* ═══════════════ GSAP SCROLL ANIMATIONS ═══════════════ */
