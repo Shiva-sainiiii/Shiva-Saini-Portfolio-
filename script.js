@@ -156,7 +156,7 @@ function initScrambleText() {
   if (!el) return;
 
   const finalText = el.textContent.trim();
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&*';
+  const chars = 'ABRSTUVWXYZ!@#$%&*';
   let iteration = 0;
   let frame;
 
